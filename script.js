@@ -98,7 +98,7 @@ let tejossz = true
 let jatekosszam = Number
 let legutobbi_lap = String
 
-// Legenerálja a páját, kiosztja az kezdőlapokat.
+// Legenerálja a pályát, kiosztja az kezdőlapokat.
 function palya_generalas() {
     reset()
     kezdo_kartya_huzas()
