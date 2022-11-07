@@ -28,6 +28,7 @@ class bot {
         if (kartya_amit_le_tud_tenni_a_bot.length != 0) {
             //random választunk egyet a szabályosan lerakható lapok közül
             asztalon_levo_kartya = kartya_amit_le_tud_tenni_a_bot.splice(Math.floor(Math.random() * kartya_amit_le_tud_tenni_a_bot.length), 1)[0];
+            kulonleges_lap_meg_ervenyes = true
             
             //Végig megyünk a bot kártyáin és azt a lapot, amit most fog lerakni kivesszük a kártya listájából
             for (let p = 0; p < this.kartyai.length; p++) {
@@ -92,11 +93,12 @@ let kulonleges_lapok = []
 let kezben_tartott_lapok = []
 let kijatszott_lapok = []
 let asztalon_levo_kartya = String
+let kulonlegesLap = String
 let botok = []
 let start = false
 let tejossz = true
 let jatekosszam = Number
-let legutobbi_lap = String
+let kulonleges_lap_meg_ervenyes = false
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
 function palya_generalas() {
@@ -294,6 +296,7 @@ function kivalsztas(valasztott_lap) {
 
             //A lapot aktív lappá tesszük
             asztalon_levo_kartya = valasztott_lap
+            kulonleges_lap_meg_ervenyes = true
 
             tejossz = false
 
@@ -312,31 +315,31 @@ function botok_lepnek() {
     //A botok szamaval megfeleloen a botok lepnek
     //Undorító késleltetés. setTimeoutban setTimeoutban setTimeout ráadásul csak iffel, de egyszerűen nem találtam másik megoldást, csak olyat, ahol a három valahogy mindig egyszerre futott le
     if (jatekosszam==2) {
-        setTimeout(function() {
-            botok[0].bot_tervez_majd_lep()
-            }, 500)
+        setTimeout(
+            kulonleges_lap_nezes(botok[0]), 500)
         }
     else if(jatekosszam == 3){
     setTimeout(function() {
         setTimeout(function() {
-            botok[1].bot_tervez_majd_lep()
+            kulonleges_lap_nezes(botok[1])
         },500)
-        botok[0].bot_tervez_majd_lep()
+        kulonleges_lap_nezes(botok[0])
       },500)
     }
     else{
       setTimeout(function() {
         setTimeout(function() {
             setTimeout(function() {
-            botok[2].bot_tervez_majd_lep()
+                kulonleges_lap_nezes(botok[2])
         },500)
-        botok[1].bot_tervez_majd_lep()
+        kulonleges_lap_nezes(botok[1])
       },500)
-      botok[0].bot_tervez_majd_lep()
+      kulonleges_lap_nezes(botok[0])
     },500)
 }
-ido = (jatekosszam-1)*500
+ido = (jatekosszam)*500+300
 setTimeout(te_jossz, ido)
+
 }
 
 function remove() {
@@ -382,7 +385,28 @@ function dobo_pakli_frissites(szin, ertek){
 }
 
 function te_jossz() {
-    tejossz = true
+    if (kulonleges_lap_meg_ervenyes == true){
+        kulonlegesLap = kulonleges_lap(asztalon_levo_kartya)
+        if (kulonlegesLap == "nem különleges"){
+            tejossz = true
+        }
+        else if (kulonlegesLap == "+2"){
+            for (let i = 0; i < 2; i++) {
+                jatekos_kartya_huzas()               
+            }
+            botok_lepnek()
+        }
+        else if (kulonlegesLap == "+4"){
+            for (let i = 0; i < 4; i++) {
+                jatekos_kartya_huzas()           
+            }
+            botok_lepnek()
+        }
+        kulonleges_lap_meg_ervenyes = false
+    }
+    else{
+        tejossz = true
+    }
 }
 
 function kulonleges_lap(kartya) {
@@ -401,4 +425,32 @@ function kulonleges_lap(kartya) {
         default:
             return "nem különleges"
     }
+}
+
+function kulonleges_lap_nezes(bot){
+    if (kulonleges_lap_meg_ervenyes == true){
+        kulonlegesLap = kulonleges_lap(asztalon_levo_kartya)
+        if (kulonlegesLap == "nem különleges"){
+            bot.bot_tervez_majd_lep()
+        }
+        else if (kulonlegesLap == "+2"){
+            tejossz = true
+            for (let i = 0; i < 2; i++) {
+                bot.bot_laphuzas()               
+            }
+            tejossz = false
+        }
+        else if (kulonlegesLap == "+4"){
+            tejossz = false
+            for (let i = 0; i < 4; i++) {
+                bot.bot_laphuzas()               
+            }
+            tejossz = false
+        }
+        kulonleges_lap_meg_ervenyes = false
+    }
+    else{
+        bot.bot_tervez_majd_lep()
+    }
+
 }
