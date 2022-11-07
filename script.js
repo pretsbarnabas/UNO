@@ -5,71 +5,65 @@ class bot {
     }
     bot_tervez_majd_lep() {
         if (this.kartyai.length != 0){
-            if (legutobbi_lap != "Ø"){
-                //Asztalon lévő lap, értékre és színre bontás
-            let ertek_asztalon = asztalon_levo_kartya.split("-")[1]
-            let szin_asztalon = asztalon_levo_kartya.split("-")[0]
-        
-            //Ebbe gyűjtjük össze azokat a lapokat, amelyeket a bot le tud rakni
-            let kartya_amit_le_tud_tenni_a_bot = []
-        
-            //Végig megyünk a bot lapjain
-            for (const kartya of this.kartyai) {
-                
-                //Egy kártya értékre és színre bontása
-                let ertek = kartya.split("-")[1]
-                let szin = kartya.split("-")[0]
-                
-                //Megvizsgáljuk, hogy le tudjuk-e rakni, ha igen akkor azt a listába rakjuk
-                if (szin == szin_asztalon || ertek == ertek_asztalon || szin == "sz" || szin == "f" || szin_asztalon == "f" || szin_asztalon == "sz") {
-                    kartya_amit_le_tud_tenni_a_bot.push(kartya)
-                }
+            //Asztalon lévő lap, értékre és színre bontás
+        let ertek_asztalon = asztalon_levo_kartya.split("-")[1]
+        let szin_asztalon = asztalon_levo_kartya.split("-")[0]
+    
+        //Ebbe gyűjtjük össze azokat a lapokat, amelyeket a bot le tud rakni
+        let kartya_amit_le_tud_tenni_a_bot = []
+    
+        //Végig megyünk a bot lapjain
+        for (const kartya of this.kartyai) {
+            
+            //Egy kártya értékre és színre bontása
+            let ertek = kartya.split("-")[1]
+            let szin = kartya.split("-")[0]
+            
+            //Megvizsgáljuk, hogy le tudjuk-e rakni, ha igen akkor azt a listába rakjuk
+            if (szin == szin_asztalon || ertek == ertek_asztalon || szin == "sz" || szin == "f" || szin_asztalon == "f" || szin_asztalon == "sz") {
+                kartya_amit_le_tud_tenni_a_bot.push(kartya)
             }
-            //Ha van olyan lap, amit a bot le tud rakni, akkor abból random választunk egyet
-            if (kartya_amit_le_tud_tenni_a_bot.length != 0) {
-                //random választunk egyet a szabályosan lerakható lapok közül
-                asztalon_levo_kartya = kartya_amit_le_tud_tenni_a_bot.splice(Math.floor(Math.random() * kartya_amit_le_tud_tenni_a_bot.length), 1)[0];
-                
-                //Végig megyünk a bot kártyáin és azt a lapot, amit most fog lerakni kivesszük a kártya listájából
-                for (let p = 0; p < this.kartyai.length; p++) {
-                    if (asztalon_levo_kartya == this.kartyai[p]) {
-                        this.kartyai.splice(p, 1);
-                        break;
-                    }
-        
-                }
-
-                ertek_asztalon = asztalon_levo_kartya.split("-")[1]
-                szin_asztalon = asztalon_levo_kartya.split("-")[0]
-                
-                //A dobópaklit beállítjuk a megfelelő kártyára
-                szin_asztalon = szineldontes(szin_asztalon)
-                setTimeout(dobo_pakli_frissites, this.kartyai.length*80, szin_asztalon, ertek_asztalon)
-
-                //A kijátszott_lapok listába belerakjuk a most kijatszott lapot
-                kijatszott_lapok.push(asztalon_levo_kartya);
-
-                // A most kijátszott kártyát megkeressük és animáció miatt adunk neki egy classt
-                let torlendo_kartya = document.querySelector(`.${this.helye} div`);
-                torlendo_kartya.style.animationDuration = this.kartyai.length*80
-                torlendo_kartya.classList.add("slide-left")
-                legutobbi_lap = kulonleges_lap(asztalon_levo_kartya)
-                //Töröljük 1 másodperces késleltetéssel a kártyát
-                setTimeout(remove, this.kartyai.length*80);
-            }
-            //Ha a bot nem tud lapot rakni akkor húz
-            else {
-                this.bot_laphuzas()
-            }
-            //Kiürítjük a listát.
-            kartya_amit_le_tud_tenni_a_bot = []
-        }else{
-            legutobbi_lap = "nem különleges"
         }
+        //Ha van olyan lap, amit a bot le tud rakni, akkor abból random választunk egyet
+        if (kartya_amit_le_tud_tenni_a_bot.length != 0) {
+            //random választunk egyet a szabályosan lerakható lapok közül
+            asztalon_levo_kartya = kartya_amit_le_tud_tenni_a_bot.splice(Math.floor(Math.random() * kartya_amit_le_tud_tenni_a_bot.length), 1)[0];
+            
+            //Végig megyünk a bot kártyáin és azt a lapot, amit most fog lerakni kivesszük a kártya listájából
+            for (let p = 0; p < this.kartyai.length; p++) {
+                if (asztalon_levo_kartya == this.kartyai[p]) {
+                    this.kartyai.splice(p, 1);
+                    break;
+                }
+    
+            }
+
+            ertek_asztalon = asztalon_levo_kartya.split("-")[1]
+            szin_asztalon = asztalon_levo_kartya.split("-")[0]
+            
+            //A dobópaklit beállítjuk a megfelelő kártyára
+            szin_asztalon = szineldontes(szin_asztalon)
+            setTimeout(dobo_pakli_frissites, 500, szin_asztalon, ertek_asztalon)
+
+            //A kijátszott_lapok listába belerakjuk a most kijatszott lapot
+            kijatszott_lapok.push(asztalon_levo_kartya);
+
+            // A most kijátszott kártyát megkeressük és animáció miatt adunk neki egy classt
+            let torlendo_kartya = document.querySelector(`.${this.helye} div`);
+            torlendo_kartya.style.animationDuration = 500
+            torlendo_kartya.classList.add("slide-left")
+            //Töröljük 1 másodperces késleltetéssel a kártyát
+            setTimeout(remove, 500);
         }
-        if (this.helye != "Nyertem" && this.kartyai.length == 0){
-            document.querySelector(`.${this.helye}`).innerText = "Nem maradt lapom csicska";
-            this.helye = "Nyertem";
+        //Ha a bot nem tud lapot rakni akkor húz
+        else {
+            this.bot_laphuzas()
+        }
+        //Kiürítjük a listát.
+        kartya_amit_le_tud_tenni_a_bot = []
+        }
+        if (this.kartyai.length == 0){
+            palya_generalas()
         }
 }
     bot_laphuzas() {
@@ -116,6 +110,7 @@ function palya_generalas() {
     jatek_tabla.classList.add('jatekos');
     document.querySelector(".jatektabla").appendChild(jatek_tabla);
 
+    tejossz = true
     //7 kártyát oszt a jatekosnak
     for (let i = 0; i < 7; i++) {
         jatekos_kartya_huzas();
@@ -176,7 +171,7 @@ function reset() {
 
     // A legelső lapot a huzo_paklibol valasztja, hogy az első lap ne legyen valamilyen különleges lap, ezért a különleges lapokat, majd a kezdő kartya sorsolása után adjuk hozzá
     huzo_pakli = ["s-1", "s-1", "s-2", "s-2", "s-3", "s-3", "s-4", "s-4", "s-5", "s-5", "s-6", "s-6", "s-7", "s-7", "s-8", "s-8", "s-9", "s-9", "s-0", "p-1", "p-1", "p-2", "p-2", "p-3", "p-3", "p-4", "p-4", "p-5", "p-5", "p-6", "p-6", "p-7", "p-7", "p-8", "p-8", "p-9", "p-9", "p-0", "k-1", "k-1", "k-2", "k-2", "k-3", "k-3", "k-4", "k-4", "k-5", "k-5", "k-6", "k-6", "k-7", "k-7", "k-8", "k-8", "k-9", "k-9", "k-0", "z-1", "z-1", "z-2", "z-2", "z-3", "z-3", "z-4", "z-4", "z-5", "z-5", "z-6", "z-6", "z-7", "z-7", "z-8", "z-8", "z-9", "z-9", "z-0"];
-    kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-sz", "sz-sz", "s-↔", "s-↔", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-↔", "p-↔", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-↔", "k-↔", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-↔", "z-↔", "z-Ø", "z-Ø"];
+    kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-↔", "s-↔", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-↔", "p-↔", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-↔", "k-↔", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-↔", "z-↔", "z-Ø", "z-Ø"];
     //jatekos kezben_tartott_lapjai
     kezben_tartott_lapok = [];
     //Az osszes kijatszott lap (ezt keverjuk ujra, ha elfogy a huzopakli)
@@ -227,6 +222,7 @@ function jatekos_kartya_huzas() {
         //Létrehozunk egy divet, amely a kártya lesz output: <div class="jatekos_kartya" onclick"kivalasztas(${valasztott_lap})""></div>
         const kartyak = document.createElement("div");
         kartyak.classList.add('jatekos_kartya')
+        kartyak.classList.add(`${valasztott_lap}`)
         kartyak.setAttribute("onclick", `kivalsztas("${valasztott_lap}")`);
         document.querySelector(".jatekos").appendChild(kartyak);
 
@@ -234,14 +230,10 @@ function jatekos_kartya_huzas() {
         kartyak.style.backgroundColor = szineldontes(szin)
 
         //Ha nem színváltó, ráírjuk, milyen kártya
-        if (ertek != 'sz') {
-            kartyak.innerHTML = `<p class="ertek">${ertek}</p>`;
-        } 
-        //Ha színváltó, akkor adunk neki, egy színátmenetes hátteret
-        else {
+        kartyak.innerHTML = `<p class="ertek">${ertek}</p>`;
+        if (szin == "sz"){
             kartyak.style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
         }
-
         //Ha már a játék elkezdődött, tehát ezt nem az első 7 lap között húztuk, akkor a bot köre következik.
         if (start == true) {
             tejossz = false
@@ -286,17 +278,9 @@ function kivalsztas(valasztott_lap) {
             //Megnézzük, hogy a valasztott kartya, hanyadikkent szerepel a kezeben (q)
             let q = 0
             szin = szineldontes(szin)
-            if (ertek != "sz") {
-                //Megyunk, amíg meg nem találjuk azt a lapot, amit a jatekos valasztott
-                while (kartyak[q].style.backgroundColor != szin || ertek != kartyak[q].innerText) {
-                    q++;
-                }
-            }
-            else {
-                //A színváltónak, nincs innertextje, így itt csak a színt nézzük
-                while (kartyak[q].style.backgroundColor != szin) {
-                    q++;
-                }
+            //Megyunk, amíg meg nem találjuk azt a lapot, amit a jatekos valasztott
+            while (kartyak[q].classList[1] != valasztott_lap) {
+                q++;
             }
             setTimeout(dobo_pakli_frissites, 1000, szin, ertek)
             //A valasztott lapnak adunk egy classt, hogy az animációt tudjon indítani
@@ -311,17 +295,14 @@ function kivalsztas(valasztott_lap) {
             //A lapot aktív lappá tesszük
             asztalon_levo_kartya = valasztott_lap
 
-            legutobbi_lap = kulonleges_lap(asztalon_levo_kartya)
-
             tejossz = false
 
             if (kartyak.length == 1) {
-                alert("Gratulálok noob!")
-                setTimeout(reset, 500)
+                palya_generalas()
             }
 
             //A körünk után a botok fognak lépni
-            setTimeout(botok_lepnek, 300);
+            setTimeout(botok_lepnek, 500);
         }
         }
     }
@@ -333,35 +314,28 @@ function botok_lepnek() {
     if (jatekosszam==2) {
         setTimeout(function() {
             botok[0].bot_tervez_majd_lep()
-            }, botok[0].bot_kartyaszam()*300)
+            }, 500)
         }
     else if(jatekosszam == 3){
     setTimeout(function() {
         setTimeout(function() {
             botok[1].bot_tervez_majd_lep()
-        },botok[1].bot_kartyaszam()*300)
+        },500)
         botok[0].bot_tervez_majd_lep()
-      },botok[0].bot_kartyaszam()*300)
+      },500)
     }
     else{
       setTimeout(function() {
         setTimeout(function() {
             setTimeout(function() {
             botok[2].bot_tervez_majd_lep()
-        },botok[2].bot_kartyaszam()*300)
+        },500)
         botok[1].bot_tervez_majd_lep()
-      },botok[1].bot_kartyaszam()*300)
+      },500)
       botok[0].bot_tervez_majd_lep()
-    },botok[0].bot_kartyaszam()*300)
+    },500)
 }
-let ido = 0
-for (let index = 0; index < botok.length; index++) {
-    ido += botok[index].bot_kartyaszam()*300
-}
-if (legutobbi_lap == "Ø"){
-    legutobbi_lap = "nem különleges"
-    botok_lepnek()
-}
+ido = (jatekosszam-1)*500
 setTimeout(te_jossz, ido)
 }
 
@@ -390,20 +364,21 @@ function szineldontes(szin) {
             return "rgb(230, 11, 22)";
         case 'z':
             return "rgb(11, 122, 35)";
+        case 'sz':
+            return "sz"
         default:
             return "rgb(0, 0, 0)";
     }
 }
 
 function dobo_pakli_frissites(szin, ertek){
-    if (ertek != "sz"){
-        document.querySelector("#dobopakli").style.backgroundColor = `${szin}`;
-        document.querySelector("#dobopakli").innerHTML = `<p class="ertek">${ertek}</p>`;
-        document.querySelector("#dobopakli").style.backgroundImage = "";
-    }else{
-    document.querySelector("#dobopakli").style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
-    document.querySelector("#dobopakli").innerHTML = `<p class="ertek"></p>`;
+    document.querySelector("#dobopakli").style.backgroundColor = `${szin}`;
+    document.querySelector("#dobopakli").innerHTML = `<p class="ertek">${ertek}</p>`;
+    document.querySelector("#dobopakli").style.backgroundImage = "";
+    if (szin == "sz"){
+        document.querySelector("#dobopakli").style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
     }
+   
 }
 
 function te_jossz() {
@@ -427,4 +402,3 @@ function kulonleges_lap(kartya) {
             return "nem különleges"
     }
 }
-
