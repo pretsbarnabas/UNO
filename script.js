@@ -109,6 +109,8 @@ function palya_generalas() {
     reset()
     kezdo_kartya_huzas()
 
+    document.getElementById("huzas_gomb").style.display = "block"
+
     //Létrehozza a játékos tábláját. Output: <div class=jatekos></div>
     const jatek_tabla = document.createElement("div");
     jatek_tabla.classList.add('jatekos');
