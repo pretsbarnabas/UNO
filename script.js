@@ -43,9 +43,24 @@ class bot {
             szin_asztalon = asztalon_levo_kartya.split("-")[0]
             
             //A dobópaklit beállítjuk a megfelelő kártyára
+            if (szin_asztalon == "sz"){
+                let kartyai_szinei = []
+                for (const kartya of this.kartyai) {
+                    let szine = kartya.split("-")[0]
+                    kartyai_szinei.push(szine)
+                }
+                let b={};
+                let max='';
+                let maxi=0;
+                for(let k of kartyai_szinei) {
+                    if(b[k]) b[k]++; else b[k]=1;
+                    if(maxi < b[k]) { max=k; maxi=b[k] }
+                }
+                szin_asztalon = max
+                asztalon_levo_kartya = `${szin_asztalon}-+4`
+            }
             szin_asztalon = szineldontes(szin_asztalon)
             setTimeout(dobo_pakli_frissites, 500, szin_asztalon, ertek_asztalon)
-
             //A kijátszott_lapok listába belerakjuk a most kijatszott lapot
             kijatszott_lapok.push(asztalon_levo_kartya);
 
@@ -99,6 +114,7 @@ let start = false
 let tejossz = true
 let jatekosszam = Number
 let kulonleges_lap_meg_ervenyes = false
+let irany = "balra"
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
 function palya_generalas() {
@@ -115,7 +131,7 @@ function palya_generalas() {
     tejossz = true
     //7 kártyát oszt a jatekosnak
     for (let i = 0; i < 7; i++) {
-        jatekos_kartya_huzas();
+        jatekos_kartya_huzas(false);
     }
 
     //botok generálása
@@ -173,7 +189,8 @@ function reset() {
 
     // A legelső lapot a huzo_paklibol valasztja, hogy az első lap ne legyen valamilyen különleges lap, ezért a különleges lapokat, majd a kezdő kartya sorsolása után adjuk hozzá
     huzo_pakli = ["s-1", "s-1", "s-2", "s-2", "s-3", "s-3", "s-4", "s-4", "s-5", "s-5", "s-6", "s-6", "s-7", "s-7", "s-8", "s-8", "s-9", "s-9", "s-0", "p-1", "p-1", "p-2", "p-2", "p-3", "p-3", "p-4", "p-4", "p-5", "p-5", "p-6", "p-6", "p-7", "p-7", "p-8", "p-8", "p-9", "p-9", "p-0", "k-1", "k-1", "k-2", "k-2", "k-3", "k-3", "k-4", "k-4", "k-5", "k-5", "k-6", "k-6", "k-7", "k-7", "k-8", "k-8", "k-9", "k-9", "k-0", "z-1", "z-1", "z-2", "z-2", "z-3", "z-3", "z-4", "z-4", "z-5", "z-5", "z-6", "z-6", "z-7", "z-7", "z-8", "z-8", "z-9", "z-9", "z-0"];
-    kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-↔", "s-↔", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-↔", "p-↔", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-↔", "k-↔", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-↔", "z-↔", "z-Ø", "z-Ø"];
+    // kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-↔", "s-↔", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-↔", "p-↔", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-↔", "k-↔", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-↔", "z-↔", "z-Ø", "z-Ø"];
+    kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-Ø", "z-Ø"];
     //jatekos kezben_tartott_lapjai
     kezben_tartott_lapok = [];
     //Az osszes kijatszott lap (ezt keverjuk ujra, ha elfogy a huzopakli)
@@ -212,7 +229,7 @@ function kezdo_kartya_huzas() {
 }
 
 //A játékos kártyahúzását szimulálja
-function jatekos_kartya_huzas() {
+function jatekos_kartya_huzas(huzas_gomb_miatt) {
         if (tejossz == true){
         //Húzunk egy random lapot a huzopakliból
         const valasztott_lap = lap_huzas()
@@ -237,7 +254,7 @@ function jatekos_kartya_huzas() {
             kartyak.style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
         }
         //Ha már a játék elkezdődött, tehát ezt nem az első 7 lap között húztuk, akkor a bot köre következik.
-        if (start == true) {
+        if (huzas_gomb_miatt == true) {
             tejossz = false
             setTimeout(botok_lepnek, 300);
         }
@@ -296,16 +313,22 @@ function kivalsztas(valasztott_lap) {
 
             //A lapot aktív lappá tesszük
             asztalon_levo_kartya = valasztott_lap
-            kulonleges_lap_meg_ervenyes = true
-
-            tejossz = false
 
             if (kartyak.length == 1) {
                 palya_generalas()
             }
-
-            //A körünk után a botok fognak lépni
-            setTimeout(botok_lepnek, 500);
+            else{
+                if (szin == "sz"){
+                    document.getElementsByClassName("szinvalaszto")[0].style.visibility = "visible";
+                    document.getElementsByClassName("takaro")[0].style.visibility = "visible";
+                }
+                else{
+                    kulonleges_lap_meg_ervenyes = true
+                    tejossz = false
+                    //A körünk után a botok fognak lépni
+                    setTimeout(botok_lepnek, 500);
+                }
+            }
         }
         }
     }
@@ -314,30 +337,56 @@ function kivalsztas(valasztott_lap) {
 function botok_lepnek() {
     //A botok szamaval megfeleloen a botok lepnek
     //Undorító késleltetés. setTimeoutban setTimeoutban setTimeout ráadásul csak iffel, de egyszerűen nem találtam másik megoldást, csak olyat, ahol a három valahogy mindig egyszerre futott le
+
+
     if (jatekosszam==2) {
         setTimeout(
             kulonleges_lap_nezes(botok[0]), 500)
         }
     else if(jatekosszam == 3){
-    setTimeout(function() {
-        setTimeout(function() {
-            kulonleges_lap_nezes(botok[1])
-        },500)
-        kulonleges_lap_nezes(botok[0])
-      },500)
+        if (irany == "balra"){
+            setTimeout(function() {
+                setTimeout(function() {
+                    kulonleges_lap_nezes(botok[1])
+                },500)
+                kulonleges_lap_nezes(botok[0])
+              },500)
+        }
+        else if (irany == "jobbra"){
+            setTimeout(function() {
+                setTimeout(function() {
+                    kulonleges_lap_nezes(botok[0])
+                },500)
+                kulonleges_lap_nezes(botok[1])
+              },500)
+        }
+
     }
     else{
-      setTimeout(function() {
-        setTimeout(function() {
+        if (irany == "balra"){
             setTimeout(function() {
-                kulonleges_lap_nezes(botok[2])
-        },500)
-        kulonleges_lap_nezes(botok[1])
-      },500)
-      kulonleges_lap_nezes(botok[0])
-    },500)
+                setTimeout(function() {
+                    setTimeout(function() {
+                        kulonleges_lap_nezes(botok[2])
+                },500)
+                kulonleges_lap_nezes(botok[1])
+              },500)
+              kulonleges_lap_nezes(botok[0])
+            },500)
+        }
+        else if (irany == "jobbra"){
+            setTimeout(function() {
+                setTimeout(function() {
+                    setTimeout(function() {
+                        kulonleges_lap_nezes(botok[0])
+                },500)
+                kulonleges_lap_nezes(botok[1])
+              },500)
+              kulonleges_lap_nezes(botok[2])
+            },500)
+        }
 }
-ido = (jatekosszam)*500+300
+ido = (jatekosszam)*500
 setTimeout(te_jossz, ido)
 
 }
@@ -392,17 +441,35 @@ function te_jossz() {
         }
         else if (kulonlegesLap == "+2"){
             for (let i = 0; i < 2; i++) {
-                jatekos_kartya_huzas()               
+                tejossz = true
+                jatekos_kartya_huzas(false)               
+                setTimeout(function(){tejossz = false}, 1000);
+                kulonleges_lap_meg_ervenyes = false
             }
             botok_lepnek()
         }
         else if (kulonlegesLap == "+4"){
             for (let i = 0; i < 4; i++) {
-                jatekos_kartya_huzas()           
+                tejossz = true
+                jatekos_kartya_huzas(false)               
+                setTimeout(function(){tejossz = false}, 1000);    
+                kulonleges_lap_meg_ervenyes = false
             }
             botok_lepnek()
         }
-        kulonleges_lap_meg_ervenyes = false
+        else if (kulonlegesLap == "Ø"){
+            kulonleges_lap_meg_ervenyes = false
+            botok_lepnek()
+        }
+        else if (kulonlegesLap == "↔"){
+            if (irany == "balra"){
+                irany = "jobbra"
+            }else{
+                irany == "balra"
+            }
+            kulonleges_lap_meg_ervenyes = false
+            botok_lepnek()
+        }
     }
     else{
         tejossz = true
@@ -434,23 +501,40 @@ function kulonleges_lap_nezes(bot){
             bot.bot_tervez_majd_lep()
         }
         else if (kulonlegesLap == "+2"){
-            tejossz = true
             for (let i = 0; i < 2; i++) {
                 bot.bot_laphuzas()               
+                kulonleges_lap_meg_ervenyes = false
             }
-            tejossz = false
         }
         else if (kulonlegesLap == "+4"){
-            tejossz = false
             for (let i = 0; i < 4; i++) {
-                bot.bot_laphuzas()               
+                bot.bot_laphuzas()             
+                kulonleges_lap_meg_ervenyes = false
             }
-            tejossz = false
         }
-        kulonleges_lap_meg_ervenyes = false
+        else if (kulonlegesLap == "Ø"){
+            kulonleges_lap_meg_ervenyes = false
+        }
+        else if (kulonlegesLap == "↔"){
+            if (irany == "balra"){
+                irany = "jobbra"
+            }else{
+                irany == "balra"
+            }
+            kulonleges_lap_meg_ervenyes = false
+        }
     }
     else{
         bot.bot_tervez_majd_lep()
     }
+}
 
+function szinvalasztas(szin) {
+    asztalon_levo_kartya = `${szin}-+4`
+    document.getElementsByClassName("szinvalaszto")[0].style.visibility = "hidden";
+    document.getElementsByClassName("takaro")[0].style.visibility = "hidden";
+    kulonleges_lap_meg_ervenyes = true
+    tejossz = false
+    //A körünk után a botok fognak lépni
+    setTimeout(botok_lepnek, 500);
 }
