@@ -97,14 +97,17 @@ let start = false
 let tejossz = true
 let jatekosszam = Number
 let legutobbi_lap = String
+let jatekos_pontjai = 0
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
 function palya_generalas() {
+    pontozas()
     reset()
     kezdo_kartya_huzas()
 
+    document.getElementById("ponttabla").style.display = "block"
     document.getElementById("huzas_gomb").style.display = "block"
-
+    
     //Létrehozza a játékos tábláját. Output: <div class=jatekos></div>
     const jatek_tabla = document.createElement("div");
     jatek_tabla.classList.add('jatekos');
@@ -119,7 +122,7 @@ function palya_generalas() {
     //botok generálása
     //Megnézzük, hogy a felhasználó, mennyi játékossal szeretne játszani
     jatekosszam = document.querySelector("#jatekos_szam").value
-
+    
     //A botok szama: jatekosszam-1, tehát ennyi botot hozunk létre
     for (let i = 0; i < jatekosszam - 1; i++) {
         //Beállítjuk a botok pozícióját
@@ -132,7 +135,7 @@ function palya_generalas() {
         else {
             bot_helye = "right"
         }
-
+        
         //példányosítjuk a botot, (pozíció, kártyái)
         botok.push(new bot(bot_helye, []))
 
@@ -140,22 +143,26 @@ function palya_generalas() {
         const jatek_tabla = document.createElement("div");
         jatek_tabla.classList.add(`${botok[i].helye}`);
         document.querySelector(".jatektabla").appendChild(jatek_tabla);
-
+        
         //Kiosztunk 7 lapot a botnak
         for (let k = 0; k < 7; k++) {
             //random huzunk egy lapot a huzo_paklibol
             let valasztott_lap = lap_huzas()
-
+            
             //A választott lapot, a bot kartyai kozott eltaroljuk
             botok[i].kartyai.push(valasztott_lap)
-
+            
             //elkészítjük a bot kartyajat output: <div class="bot_kartya"></div>
             const kartyak = document.createElement("div");
             kartyak.classList.add('bot_kartya')
             document.querySelector(`.${botok[i].helye}`).appendChild(kartyak);
         }
     }
-
+    
+    for (let i = 0; i < botok.length; i++) {
+        document.getElementById(`ponttabla_bot${i+1}`).style.display = "block";
+        
+    }
     //Elkezdődik a játék.
     start = true
     tejossz = true
@@ -165,7 +172,7 @@ function palya_generalas() {
 function reset() {
     //Töröl minden elemet, ami a jatektablan belul van. (Kivéve dobó és húzópakli.)
     const elemek = document.querySelectorAll(".jatektabla>*")
-    for (let i = 2; i < elemek.length; i++) {
+    for (let i = 3; i < elemek.length; i++) {
         elemek[i].remove()
     }
 
@@ -400,5 +407,23 @@ function kulonleges_lap(kartya) {
             return "sz"
         default:
             return "nem különleges"
+    }
+}
+
+function pontozas(){
+    for (let index = 0; index < kezben_tartott_lapok.length; index++) {
+        const element = kezben_tartott_lapok[index];
+        const value  = element.split("-")[1]
+        if (0<=value<10) {
+            jatekos_pontjai+=value
+        }
+        else if(value == "+2" || value == "Ø" || value == "↔"){
+            jatekos_pontjai+=20
+        }
+        else{
+            jatekos_pontjai+=50
+            
+        }
+        document.getElementById("jatekospont").innerHTML = jatekos_pontjai
     }
 }
