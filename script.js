@@ -233,7 +233,7 @@ function palya_generalas() {
 function reset() {
     //Töröl minden elemet, ami a jatektablan belul van. (Kivéve dobó és húzópakli.)
     const elemek = document.querySelectorAll(".jatektabla>*")
-    for (let i = 3; i < elemek.length; i++) {
+    for (let i = 2; i < elemek.length; i++) {
         elemek[i].remove()
     }
     const botokok = document.querySelectorAll("#table>*")
