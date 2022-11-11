@@ -58,6 +58,24 @@ body{
 
 }
 
+#ponttabla{
+    position: fixed;
+    top: 50%;
+    left: 60%;
+    height: 200px;
+    width: 200px;
+    display: none;
+    background-color: beige;
+}
+
+#ponttabla_bot1{
+    display: none;
+}#ponttabla_bot2{
+    display: none;
+}#ponttabla_bot3{
+    display: none;
+}
+
 .top{
     /* background-color: antiquewhite; */
     width: 100%;

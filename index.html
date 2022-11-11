@@ -9,6 +9,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
+<body>
+    <input id="jatekos_szam" type="number"
+    min="2" max="10" value="2">
+    <button id="start" onclick="palya_generalas()">Start</button>
+    <div class="jatektabla">
+        <div id="dobopakli">
+
+
 <body oncanplaythrough="console.log('something')">
 
 
@@ -27,6 +35,29 @@
         
         </div>
 
+        <div id="ponttabla">
+            <table id="table">
+                <tr>
+                    <td>jatekos</td>
+                    <td id="jatekospont">0</td>
+                </tr>
+                <!-- <tr id="ponttabla_bot1">
+                    <td>bot1</td>
+                    
+                    <td id="bot1pont">0</td>
+                </tr>
+                <tr id="ponttabla_bot2">
+                    <td>bot2</td>
+                    <td id="bot2pont">0</td>
+                </tr>
+                <tr id="ponttabla_bot3">
+                    <td>bot3</td>
+                    <td id="bot3pont">0</td>
+                </tr> -->
+            </table>
+        </div>
+
+
     <div class="szinvalaszto">
         <button onclick="szinvalasztas('p')">
             Piros
@@ -40,6 +71,7 @@
         <button onclick="szinvalasztas('z')">
             Zöld
         </button>
+
     </div>
     <script src="script.js"></script>
 </body>
