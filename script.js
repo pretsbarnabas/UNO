@@ -2,7 +2,9 @@ class bot {
     constructor(helye, kartyai) {
         this.helye = helye;
         this.kartyai = kartyai;
+        this.pont = 0;
     }
+    
     bot_tervez_majd_lep() {
         if (this.kartyai.length != 0){
             //Asztalon lévő lap, értékre és színre bontás
@@ -83,6 +85,28 @@ class bot {
     bot_kartyaszam(){
         return this.kartyai.length
     }
+
+    botpontozas(i){
+        for (let i = 0; i < this.kartyai.length; i++) {
+            const value = this.kartyai[i].split("-")[1]
+            if (0<=value && value<10) {
+                this.pont+=parseInt(value)
+            }
+            else if(value == "+2" || value == "Ø" || value == "↔"){
+                this.pont+=20
+            }
+            else{
+                this.pont+=50
+                
+            }
+        }
+        // if(dict[i] == undefined){
+        //     dict[i] = 0
+        // }
+            dict[i] += this.pont
+        // document.getElementById(`bot${i+1}pont`).innerHTML = dict[i]
+    
+    }
         
 
 }
@@ -98,10 +122,15 @@ let tejossz = true
 let jatekosszam = Number
 let legutobbi_lap = String
 let jatekos_pontjai = 0
+let dict = {}
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
 function palya_generalas() {
     pontozas()
+    for (let i = 0; i < botok.length; i++) {
+        botok[i].botpontozas(i);
+        
+    }
     reset()
     kezdo_kartya_huzas()
 
@@ -135,9 +164,23 @@ function palya_generalas() {
         else {
             bot_helye = "right"
         }
+        if(dict[i] == undefined){
+            dict[i] = 0
+        }
+        let content = `<td>bot ${i+1}</td>`
+        const botpontcontent = document.createElement("tr")
+        botpontcontent.id = `bot${i+1}`
+        botpontcontent.innerHTML = content
+        document.querySelector("table").appendChild(botpontcontent)
+        content = `${dict[i]}`
+        const botpontcontent2 = document.createElement("td")
+        botpontcontent2.id = `id="bot${i+1}pont`
+        botpontcontent2.innerText = content
+        document.querySelector(`#bot${i+1}`).appendChild(botpontcontent2)
         
         //példányosítjuk a botot, (pozíció, kártyái)
         botok.push(new bot(bot_helye, []))
+        
 
         //létrehozzuk a botok divjét output: <div class="{bot_helye}"></div>
         const jatek_tabla = document.createElement("div");
@@ -159,10 +202,6 @@ function palya_generalas() {
         }
     }
     
-    for (let i = 0; i < botok.length; i++) {
-        document.getElementById(`ponttabla_bot${i+1}`).style.display = "block";
-        
-    }
     //Elkezdődik a játék.
     start = true
     tejossz = true
@@ -175,6 +214,12 @@ function reset() {
     for (let i = 3; i < elemek.length; i++) {
         elemek[i].remove()
     }
+    const botokok = document.querySelectorAll("#table>*")
+    for (let j = 1; j < botokok.length; j++) {
+        botokok[j].remove();
+        
+    }
+
 
     // A legelső lapot a huzo_paklibol valasztja, hogy az első lap ne legyen valamilyen különleges lap, ezért a különleges lapokat, majd a kezdő kartya sorsolása után adjuk hozzá
     huzo_pakli = ["s-1", "s-1", "s-2", "s-2", "s-3", "s-3", "s-4", "s-4", "s-5", "s-5", "s-6", "s-6", "s-7", "s-7", "s-8", "s-8", "s-9", "s-9", "s-0", "p-1", "p-1", "p-2", "p-2", "p-3", "p-3", "p-4", "p-4", "p-5", "p-5", "p-6", "p-6", "p-7", "p-7", "p-8", "p-8", "p-9", "p-9", "p-0", "k-1", "k-1", "k-2", "k-2", "k-3", "k-3", "k-4", "k-4", "k-5", "k-5", "k-6", "k-6", "k-7", "k-7", "k-8", "k-8", "k-9", "k-9", "k-0", "z-1", "z-1", "z-2", "z-2", "z-3", "z-3", "z-4", "z-4", "z-5", "z-5", "z-6", "z-6", "z-7", "z-7", "z-8", "z-8", "z-9", "z-9", "z-0"];
@@ -267,6 +312,7 @@ function lap_huzas() {
 //A játékos kártyakiválasztásáért felelős, illetve annak a kártyának a lerakásáért, ha lehetséges.
 //Akkor fut le, ha a játékos egy kártyára rákattint
 function kivalsztas(valasztott_lap) {
+    console.log(kezben_tartott_lapok)
     if (tejossz == true) {
         //Az asztalon lévő kártya szétszedése, értékre és színre
         const ertek_asztalon = asztalon_levo_kartya.split("-")[1]
@@ -411,11 +457,11 @@ function kulonleges_lap(kartya) {
 }
 
 function pontozas(){
-    for (let index = 0; index < kezben_tartott_lapok.length; index++) {
-        const element = kezben_tartott_lapok[index];
-        const value  = element.split("-")[1]
-        if (0<=value<10) {
-            jatekos_pontjai+=value
+    let kartyak = document.querySelectorAll(".jatekos_kartya");
+    for (let i = 0; i < kartyak.length; i++) {
+        const value = kartyak[i].classList[1].split("-")[1]
+        if (0<=value && value<10) {
+            jatekos_pontjai+=parseInt(value)
         }
         else if(value == "+2" || value == "Ø" || value == "↔"){
             jatekos_pontjai+=20
@@ -424,6 +470,6 @@ function pontozas(){
             jatekos_pontjai+=50
             
         }
-        document.getElementById("jatekospont").innerHTML = jatekos_pontjai
     }
+    document.getElementById("jatekospont").innerHTML = jatekos_pontjai
 }
