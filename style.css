@@ -141,6 +141,9 @@ body{
     opacity: 0.6;
     visibility: hidden;
 }
+#playprevention{
+    display: none;
+}
 
 
 
@@ -172,3 +175,11 @@ body{
         50%  {transform: rotate(30deg);position: fixed; top: 20%; left: 30%;} */
       } 
     
+@media screen and (max-width:700px) {
+    body>*{
+        display: none;
+    }
+    #playprevention{
+        display: block;
+    }
+}
