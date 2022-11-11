@@ -116,11 +116,7 @@ class bot {
                 
             }
         }
-        // if(dict[i] == undefined){
-        //     dict[i] = 0
-        // }
             dict[i] += this.pont
-        // document.getElementById(`bot${i+1}pont`).innerHTML = dict[i]
     
     }
         
@@ -153,12 +149,25 @@ function palya_generalas() {
         botok[i].botpontozas(i);
         
     }
+    for (let j = 0; j < Object.keys(dict).length; j++) {
+        if(dict[j]>500){
+            bigRESET()
+            return
+        };
+        
+    }
+    if(jatekos_pontjai>500){
+        bigRESET()
+        return
+    }
     reset()
     kezdo_kartya_huzas()
 
     document.getElementById("ponttabla").style.display = "block"
     document.getElementById("huzas_gomb").style.display = "block"
+    // document.getElementById("start").style.display = "none"
     
+
     //Létrehozza a játékos tábláját. Output: <div class=jatekos></div>
     const jatek_tabla = document.createElement("div");
     jatek_tabla.classList.add('jatekos');
@@ -566,3 +575,13 @@ function szinvalasztas(szin) {
     setTimeout(botok_lepnek, 500);
 }
 
+// ez nyom egy big resetet
+function bigRESET(){
+    reset()
+    jatekos_pontjai = 0;
+    pontozas()
+    document.getElementById("start").style.display = "flex"
+    for (let i = 0; i < Object.keys(dict).length; i++) {
+        dict[i] = 0;
+    }
+}

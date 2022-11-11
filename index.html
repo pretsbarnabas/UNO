@@ -11,9 +11,15 @@
 <body oncanplaythrough="console.log('something')">
     <h1 id="playprevention">tedd nagyobbá az ablakot</h1>
 
-
-        <input id="jatekos_szam" type="number" min="2" max="100" value="2">
-        <button id="start" onclick="palya_generalas()">Start</button>
+        <div id="start">
+            <input id="jatekos_szam" type="number" min="2" max="100" value="2">
+            <!-- <button id="start" onclick="palya_generalas()">Start</button> -->
+            <div id="start_gomb" onclick="palya_generalas()">
+                <p style="text-align: center;">
+                    Start
+                </p>
+            </div>
+        </div>
         <div class="jatektabla">
             <div id="dobopakli">
 
