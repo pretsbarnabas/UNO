@@ -1,3 +1,6 @@
+body{
+    margin: 0;
+}
 .jatekos_kartya{
     background-color: grey;
     width: 60px;
@@ -119,7 +122,31 @@
     margin-right: 10px;
     margin-top: 5px;
 }
+.szinvalaszto{
+    position: fixed;
+    top: 50%;
+    left: 42%;
+    border-color: rosybrown;
+    border-style: solid;
+    border-width: 3px;
+    padding: 10px;
+    visibility: hidden;
+}
+.takaro{
+    position: fixed;
+    top: -2px;
+    background-color: black;
+    width: 100%;
+    height: 100vw;
+    opacity: 0.6;
+    visibility: hidden;
+}
 
+
+
+
+
+/* Animációk */
 .slide-top {
     position: fixed;
     animation-name: slide-top;
@@ -144,6 +171,4 @@
         /* 25%  {transform: rotate(60deg);position: fixed; top: 10%; left: 20%;}
         50%  {transform: rotate(30deg);position: fixed; top: 20%; left: 30%;} */
       } 
-      
-  
     

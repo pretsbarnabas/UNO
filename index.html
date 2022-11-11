@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Uno</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <input id="jatekos_szam" type="number"
     min="2" max="10" value="2">
@@ -14,10 +16,25 @@
     <div class="jatektabla">
         <div id="dobopakli">
 
-        </div>
-        <div id="huzopakli">
 
+<body oncanplaythrough="console.log('something')">
+
+
+        <input id="jatekos_szam" type="number" min="2" max="100" value="2">
+        <button id="start" onclick="palya_generalas()">Start</button>
+        <div class="jatektabla">
+            <div id="dobopakli">
+
+            </div>
+            <div id="huzopakli">
+
+            </div>
         </div>
+        <button id="huzas_gomb" onclick="jatekos_kartya_huzas(true)">Húz</button>
+        <div class="takaro">
+        
+        </div>
+
         <div id="ponttabla">
             <table id="table">
                 <tr>
@@ -39,8 +56,22 @@
                 </tr> -->
             </table>
         </div>
+
+
+    <div class="szinvalaszto">
+        <button onclick="szinvalasztas('p')">
+            Piros
+        </button>
+        <button onclick="szinvalasztas('k')">
+            Kék
+        </button>
+        <button onclick="szinvalasztas('s')">
+            Sárga
+        </button>
+        <button onclick="szinvalasztas('z')">
+            Zöld
+        </button>
+
     </div>
-    <button id="huzas_gomb" onclick="jatekos_kartya_huzas()">Húz</button>
     <script src="script.js"></script>
 </body>
-</html>
