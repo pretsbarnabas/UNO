@@ -417,7 +417,7 @@ function botok_lepnek() {
 
     for (let i = 0; i < botok.length; i++) {
         content += "setTimeout(function() {\n"
-        setTimeout(markerMozog,i*500,i)
+        setTimeout(markerMozog,i*1000,i)
     }
     for (let i = botok.length-1; i > -1; i--) {
         content += `kulonleges_lap_nezes(${i})},1000)\n`
