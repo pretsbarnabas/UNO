@@ -62,7 +62,8 @@ class bot {
                 asztalon_levo_kartya = `${szin_asztalon}-+4`
             }
             szin_asztalon = szineldontes(szin_asztalon)
-            setTimeout(dobo_pakli_frissites, 500, szin_asztalon, ertek_asztalon)
+            // setTimeout(dobo_pakli_frissites, 500, szin_asztalon, ertek_asztalon)
+            dobo_pakli_frissites(szin_asztalon,ertek_asztalon)
             //A kijátszott_lapok listába belerakjuk a most kijatszott lapot
             kijatszott_lapok.push(asztalon_levo_kartya);
 
@@ -335,7 +336,6 @@ function lap_huzas() {
 //A játékos kártyakiválasztásáért felelős, illetve annak a kártyának a lerakásáért, ha lehetséges.
 //Akkor fut le, ha a játékos egy kártyára rákattint
 function kivalsztas(valasztott_lap) {
-    console.log(kezben_tartott_lapok)
     if (tejossz == true) {
         //Az asztalon lévő kártya szétszedése, értékre és színre
         const ertek_asztalon = asztalon_levo_kartya.split("-")[1]
@@ -358,7 +358,8 @@ function kivalsztas(valasztott_lap) {
             while (kartyak[q].classList[1] != valasztott_lap) {
                 q++;
             }
-            setTimeout(dobo_pakli_frissites, 1000, szin, ertek)
+            // setTimeout(dobo_pakli_frissites, 1000, szin, ertek)
+            dobo_pakli_frissites(szin,ertek)
             //A valasztott lapnak adunk egy classt, hogy az animációt tudjon indítani
             kartyak[q].classList.add('slide-top')
 
@@ -401,7 +402,7 @@ function botok_lepnek() {
         content += "setTimeout(function() {\n"
     }
     for (let i = botok.length-1; i > -1; i--) {
-        content += `kulonleges_lap_nezes(${i})},500)\n`
+        content += `kulonleges_lap_nezes(${i})},1000)\n`
     }
     const script_content = document.createElement("script");
     script_content.innerHTML = content
@@ -410,7 +411,7 @@ function botok_lepnek() {
 
 
 
-ido = (jatekosszam)*500
+ido = (jatekosszam)*1000
 setTimeout(te_jossz, ido)
 
 }
@@ -512,6 +513,7 @@ function kulonleges_lap(kartya) {
 
 
 function pontozas(){
+    remove()
     let kartyak = document.querySelectorAll(".jatekos_kartya");
     for (let i = 0; i < kartyak.length; i++) {
         const value = kartyak[i].classList[1].split("-")[1]
