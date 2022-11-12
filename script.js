@@ -1,8 +1,9 @@
 class bot {
-    constructor(helye, kartyai) {
+    constructor(helye, kartyai, i) {
         this.helye = helye;
         this.kartyai = kartyai;
         this.pont = 0;
+        this.sorszam = i
     }
     
     bot_tervez_majd_lep() {
@@ -81,7 +82,8 @@ class bot {
         kartya_amit_le_tud_tenni_a_bot = []
         }
         if (this.kartyai.length == 0){
-            palya_generalas()
+            korVegeScreen(`bot${this.sorszam+1}`)
+            // palya_generalas()
         }
 }
     bot_laphuzas() {
@@ -144,11 +146,8 @@ let irany = "balra"
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
 function palya_generalas() {
+    document.getElementById("korvege").style.display = "none"
     pontozas()
-    for (let i = 0; i < botok.length; i++) {
-        botok[i].botpontozas(i);
-        
-    }
     for (let j = 0; j < Object.keys(dict).length; j++) {
         if(dict[j]>500){
             bigRESET()
@@ -161,11 +160,10 @@ function palya_generalas() {
         return
     }
     reset()
+    botPontRemove()
     kezdo_kartya_huzas()
 
-    document.getElementById("ponttabla").style.display = "block"
-    document.getElementById("huzas_gomb").style.display = "block"
-    // document.getElementById("start").style.display = "none"
+    showHiddenElements()
     
 
     //Létrehozza a játékos tábláját. Output: <div class=jatekos></div>
@@ -210,7 +208,7 @@ function palya_generalas() {
         document.querySelector(`#bot${i+1}`).appendChild(botpontcontent2)
         
         //példányosítjuk a botot, (pozíció, kártyái)
-        botok.push(new bot(bot_helye, []))
+        botok.push(new bot(bot_helye, [],i))
         
 
         //létrehozzuk a botok divjét output: <div class="{bot_helye}"></div>
@@ -245,11 +243,11 @@ function reset() {
     for (let i = 2; i < elemek.length; i++) {
         elemek[i].remove()
     }
-    const botokok = document.querySelectorAll("#table>*")
-    for (let j = 1; j < botokok.length; j++) {
-        botokok[j].remove();
+    // const botokok = document.querySelectorAll("#table>*")
+    // for (let j = 1; j < botokok.length; j++) {
+    //     botokok[j].remove();
         
-    }
+    // }
 
 
     // A legelső lapot a huzo_paklibol valasztja, hogy az első lap ne legyen valamilyen különleges lap, ezért a különleges lapokat, majd a kezdő kartya sorsolása után adjuk hozzá
@@ -291,6 +289,14 @@ function kezdo_kartya_huzas() {
 
     //Az aktív kártya, a kezdőlap lesz
     asztalon_levo_kartya = valasztott_lap
+}
+
+function botPontRemove(){
+    const botokok = document.querySelectorAll("#table>*")
+    for (let j = 1; j < botokok.length; j++) {
+        botokok[j].remove();
+        
+    }
 }
 
 //A játékos kártyahúzását szimulálja
@@ -381,7 +387,8 @@ function kivalsztas(valasztott_lap) {
             asztalon_levo_kartya = valasztott_lap
 
             if (kartyak.length == 1) {
-                palya_generalas()
+                korVegeScreen("játékos")
+                // palya_generalas()
             }
             else{
                 if (szin == "sz"){
@@ -405,9 +412,11 @@ function botok_lepnek() {
     //Undorító késleltetés. setTimeoutban setTimeoutban setTimeout ráadásul csak iffel, de egyszerűen nem találtam másik megoldást, csak olyat, ahol a három valahogy mindig egyszerre futott le
 
     let content = ""
+    const marker = document.getElementById("marker")
 
     for (let i = 0; i < botok.length; i++) {
         content += "setTimeout(function() {\n"
+        setTimeout(markerMozog,i*500,i)
     }
     for (let i = botok.length-1; i > -1; i--) {
         content += `kulonleges_lap_nezes(${i})},500)\n`
@@ -468,6 +477,10 @@ function dobo_pakli_frissites(szin, ertek){
 }
 
 function te_jossz() {
+    let marker = document.getElementById("marker")
+    marker.style.transform = "rotate(180deg)"
+    marker.style.top = "75%"
+    marker.style.left = "50%"
     if (kulonleges_lap_meg_ervenyes == true){
         kulonlegesLap = kulonleges_lap(asztalon_levo_kartya)
         if (kulonlegesLap == "nem különleges"){
@@ -575,13 +588,114 @@ function szinvalasztas(szin) {
     setTimeout(botok_lepnek, 500);
 }
 
+
+function markerMozog(i){
+    const marker = document.getElementById("marker")
+    if (i==0) {
+        marker.style.transform = "rotate(270deg)"
+        marker.style.top = "50%"
+        marker.style.left = "10%"
+    }
+    else if(i==1){
+        marker.style.transform= "rotate(0deg)"
+        marker.style.top = "20%"
+        marker.style.left = "50%"
+    }
+    else{
+        marker.style.transform = "rotate(90deg)"
+        marker.style.top = "50%"
+        marker.style.left = "85%"
+    }
+}
+
+function showHiddenElements() {
+    document.getElementById("ponttabla").style.display = "block"
+    document.getElementById("huzas_gomb").style.display = "block"
+    document.getElementById("marker").style.display = "block"
+    document.getElementById("start").style.display = "none"
+}
+
+function korVegeScreen(nyertes){
+    pontozas()
+    document.getElementById("korvege").style.display = "block"
+    document.getElementById("ponttabla").style.display = "none"
+    document.getElementById("marker").style.display = "none"
+    document.getElementById("closeWindow").style.display = "none"
+    document.getElementById("nyertes").innerText = `A kör nyertese: ${nyertes}`
+    const elemek = document.querySelectorAll("#korVegePontok>*")
+    for (let i = 0; i < elemek.length; i++) {
+        elemek[i].remove()
+    }
+    for (let i = 0; i < botok.length; i++) {
+        botok[i].botpontozas(i);   
+    }
+    let content = `játékos: ${jatekos_pontjai}`
+    const jatekospont = document.createElement("p")
+    jatekospont.innerHTML = content
+    document.querySelector("#korVegePontok").appendChild(jatekospont)
+    for (let i = 0; i < jatekosszam-1; i++) {
+        content = `bot${i+1}: ${dict[i]}`
+        const botpontcontent = document.createElement("p")
+        botpontcontent.innerHTML = content
+        document.querySelector("#korVegePontok").appendChild(botpontcontent)    
+    }
+    reset()
+
+}
+
+
 // ez nyom egy big resetet
 function bigRESET(){
-    reset()
-    jatekos_pontjai = 0;
     pontozas()
+    const elemek = document.querySelectorAll("#korVegePontok>*")
+    for (let i = 0; i < elemek.length; i++) {
+        elemek[i].remove()
+    }
+    let minPont = 0
+    let minIndex = 0
+    for (let i = 0; i < Object.keys(dict).length; i++) {
+        if(dict[i]<minPont){
+            minPont = dict[i]
+            minIndex = i
+        }
+    }
+    if(jatekos_pontjai<minPont){
+        document.getElementById("nyertes").innerText = `A meccsnek vége!\nA nyertes: játékos`
+    }
+    else{
+    document.getElementById("nyertes").innerText = `A meccsnek vége!\nA nyertes: bot${minIndex+1}`
+    }
+    for (let i = 0; i < botok.length; i++) {
+        botok[i].botpontozas(i);   
+    }
+    let content = `játékos: ${jatekos_pontjai}`
+    const jatekospont = document.createElement("p")
+    jatekospont.innerHTML = content
+    document.querySelector("#korVegePontok").appendChild(jatekospont)
+    for (let i = 0; i < jatekosszam-1; i++) {
+        content = `bot${i+1}: ${dict[i]}`
+        const botpontcontent = document.createElement("p")
+        botpontcontent.innerHTML = content
+        document.querySelector("#korVegePontok").appendChild(botpontcontent)    
+    }
+
+    
+    document.getElementById("korvege").style.display = "block"
+    document.getElementById("korVegeGomb").style.display = "none"
+    document.getElementById("closeWindow").style.display = "block"
+    document.getElementById("ponttabla").style.display = "none"
     document.getElementById("start").style.display = "flex"
+    document.getElementById("dobopakli").style.backgroundColor = "grey"
+    document.querySelector("#dobopakli>.ertek").style.display = "none"
+    document.getElementById("huzas_gomb").style.display = "none"
     for (let i = 0; i < Object.keys(dict).length; i++) {
         dict[i] = 0;
     }
+    reset()
+    botPontRemove()
+    jatekos_pontjai = 0;
+}
+
+function hideEND(){
+    document.getElementById("korvege").style.display = "none"
 }

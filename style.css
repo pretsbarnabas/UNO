@@ -2,6 +2,7 @@ body{
     margin: 0;
     /* background-image: url(UNO_1920x1080.webp); */
     background-repeat: no-repeat;
+    font-size: 16pt;
 }
 .jatekos_kartya{
     background-color: grey;
@@ -175,8 +176,55 @@ body{
     display: none;
 }
 
+#marker{
+    position: fixed;
+    top: 75%;
+    left: 50%;
+    background: transparent;
+    width: 20px;
+    height: 20px;
+    transform: rotate(180deg);
+    display: none;
 
+}
 
+#korvege{
+    position: fixed;
+    background-color: bisque;
+    width: 400px;
+    height: 500px;
+    left: 40%;
+    top: 20%;
+    text-align: center;
+    align-items: center;
+    display: none;
+}
+
+#korVegeGomb{
+    border: 2px solid black;
+    width: fit-content;
+    border-radius: 7%;
+    margin-left: 130px;
+    background-color: white;
+    padding: 5px;
+}
+#korVegeGomb:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+#closeWindow{
+    margin-left: 375px;
+    margin-top: 5px;
+    border: 2px solid black;
+    width: fit-content;
+    height: 20px;
+    padding: 2px;
+    background-color: white;
+}
+#closeWindow:hover{
+    cursor: pointer;
+    background-color: grey;
+}
 
 
 /* Animációk */
