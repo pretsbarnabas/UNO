@@ -11,6 +11,20 @@ body{
     display: inline-block;
     margin-right: 10px;
     margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.jatekos_kartya:hover{
+    cursor: pointer;
+    animation-name: hover;
+    animation-duration: 0.1s;
+    animation-iteration-count: 1;
+    margin-top: -30px;
+    width: 80px;
+    height: 120px;
+    padding-bottom: 5px;
 }
 
 .jatekos{
@@ -252,7 +266,26 @@ body{
         /* 25%  {transform: rotate(60deg);position: fixed; top: 10%; left: 20%;}
         50%  {transform: rotate(30deg);position: fixed; top: 20%; left: 30%;} */
       } 
-    
+      @keyframes hover{
+        0%{
+            width: 60px;
+            height: 90px;
+            padding-bottom: 5px;
+            margin-top: 0px;
+        }
+        /* 50%{
+            width: 70px;
+            height: 105px;
+            margin-top: -15px;
+        } */
+        100%{
+            width: 80px;
+            height: 120px;
+            margin-top: -30px;
+            padding-bottom: 5px;
+
+        }
+      }
 @media screen and (max-width:700px) {
     body>*{
         display: none;
