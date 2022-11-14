@@ -97,6 +97,7 @@ class bot {
         //Az új kártyának létrehozzuk a divét és adunk neki egy bot_kartya classt.
         const kartyak = document.createElement("div");
         kartyak.classList.add('bot_kartya')
+        // kartyak.classList.add('slide-right')
         document.querySelector(`.${this.helye}`).appendChild(kartyak);
     }
 
