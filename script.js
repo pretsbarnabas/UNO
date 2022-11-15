@@ -8,7 +8,7 @@ class bot {
     
     bot_tervez_majd_lep() {
         if (this.kartyai.length != 0){
-            //Asztalon lévő lap, értékre és színre bontás
+        //Asztalon lévő lap, értékre és színre bontás
         let ertek_asztalon = asztalon_levo_kartya.split("-")[1]
         let szin_asztalon = asztalon_levo_kartya.split("-")[0]
 
@@ -39,7 +39,6 @@ class bot {
                     this.kartyai.splice(p, 1);
                     break;
                 }
-
             }
 
             ertek_asztalon = asztalon_levo_kartya.split("-")[1]
@@ -82,6 +81,14 @@ class bot {
         //Kiürítjük a listát.
         kartya_amit_le_tud_tenni_a_bot = []
         }
+        if (this.kartyai.length == 1){
+            const uno_bot = Math.floor(Math.random() * 100);
+            if (uno_bot < 5){
+                for (let i = 0; i < 2; i++) {
+                    this.bot_laphuzas()
+                }
+            }
+        }
         if (this.kartyai.length == 0){
             korVegeScreen(`bot${this.sorszam+1}`)
             // palya_generalas()
@@ -97,7 +104,6 @@ class bot {
         //Az új kártyának létrehozzuk a divét és adunk neki egy bot_kartya classt.
         const kartyak = document.createElement("div");
         kartyak.classList.add('bot_kartya')
-        // kartyak.classList.add('slide-right')
         document.querySelector(`.${this.helye}`).appendChild(kartyak);
     }
 
@@ -144,6 +150,8 @@ let jatekos_pontjai = 0
 let dict = {}
 let kulonleges_lap_meg_ervenyes = false
 let irany = "balra"
+let say_uno = false
+let kene_unot_nyomni = false
 
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
@@ -387,6 +395,9 @@ function kivalsztas(valasztott_lap) {
 
             //A lapot aktív lappá tesszük
             asztalon_levo_kartya = valasztott_lap
+            if (kartyak.length == 2){
+                kene_unot_nyomni = true
+            }
 
             if (kartyak.length == 1) {
                 korVegeScreen("játékos")
@@ -479,6 +490,16 @@ function dobo_pakli_frissites(szin, ertek){
 }
 
 function te_jossz() {
+    if (kene_unot_nyomni == true){
+        if (say_uno == false){
+            for (let i = 0; i < 2; i++) {
+                tejossz = true
+                jatekos_kartya_huzas(false)
+            }
+        }
+        kene_unot_nyomni = false
+        say_uno = false
+    }
     let marker = document.getElementById("marker")
     marker.style.transform = "rotate(180deg)"
     marker.style.top = "75%"
@@ -616,6 +637,7 @@ function showHiddenElements() {
     document.getElementById("huzas_gomb").style.display = "block"
     document.getElementById("marker").style.display = "block"
     document.getElementById("start").style.display = "none"
+    document.getElementById("uno_gomb").style.display = "block"
 }
 
 function korVegeScreen(nyertes){
@@ -624,6 +646,8 @@ function korVegeScreen(nyertes){
     document.getElementById("ponttabla").style.display = "none"
     document.getElementById("marker").style.display = "none"
     document.getElementById("closeWindow").style.display = "none"
+    document.getElementById("uno_gomb").style.display = "none"
+    document.getElementById("huzas_gomb").style.display = "none"
     document.getElementById("nyertes").innerText = `A kör nyertese: ${nyertes}`
     const elemek = document.querySelectorAll("#korVegePontok>*")
     for (let i = 0; i < elemek.length; i++) {
@@ -701,4 +725,17 @@ function bigRESET(){
 
 function hideEND(){
     document.getElementById("korvege").style.display = "none"
+}
+
+function uno(){
+    if (kene_unot_nyomni == false){
+        for (let i = 0; i < 2; i++) {
+            tejossz = true
+            jatekos_kartya_huzas(false)
+        }
+    }else{
+        say_uno = true
+    }
+    kene_unot_nyomni = false;
+
 }
