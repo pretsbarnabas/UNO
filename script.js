@@ -91,8 +91,10 @@ class bot {
         }
         if (this.kartyai.length == 0){
             korVegeScreen(`bot${this.sorszam+1}`)
-            // palya_generalas()
         }
+
+        let kartya_szam = document.querySelector(`.${this.helye} p`);
+        kartya_szam.innerText = "Lapok száma: " + this.kartyai.length
 }
     bot_laphuzas() {
         //Húzunk egy random lapot a huzopakliból
@@ -105,6 +107,8 @@ class bot {
         const kartyak = document.createElement("div");
         kartyak.classList.add('bot_kartya')
         document.querySelector(`.${this.helye}`).appendChild(kartyak);
+        let kartya_szam = document.querySelector(`.${this.helye} p`);
+        kartya_szam.innerText = "Lapok száma: " + this.kartyai.length
     }
 
 
@@ -181,6 +185,7 @@ function palya_generalas() {
     jatek_tabla.classList.add('jatekos');
     document.querySelector(".jatektabla").appendChild(jatek_tabla);
 
+
     tejossz = true
     //7 kártyát oszt a jatekosnak
     for (let i = 0; i < 7; i++) {
@@ -239,6 +244,10 @@ function palya_generalas() {
             kartyak.classList.add('bot_kartya')
             document.querySelector(`.${botok[i].helye}`).appendChild(kartyak);
         }
+        const kiiras = document.createElement("p");
+        kiiras.classList.add('bot_kartyaszam')
+        document.querySelector(`.${botok[i].helye}`).appendChild(kiiras);
+        kiiras.innerText = "Lapok száma: 7"
     }
     
     //Elkezdődik a játék.
@@ -401,7 +410,6 @@ function kivalsztas(valasztott_lap) {
 
             if (kartyak.length == 1) {
                 korVegeScreen("játékos")
-                // palya_generalas()
             }
             else{
                 if (szin == "sz"){
@@ -617,8 +625,8 @@ function markerMozog(i){
     const marker = document.getElementById("marker")
     if (i==0) {
         marker.style.transform = "rotate(270deg)"
-        marker.style.top = "50%"
-        marker.style.left = "10%"
+        marker.style.top = "40%"
+        marker.style.left = "30%"
     }
     else if(i==1){
         marker.style.transform= "rotate(0deg)"
@@ -627,8 +635,8 @@ function markerMozog(i){
     }
     else{
         marker.style.transform = "rotate(90deg)"
-        marker.style.top = "50%"
-        marker.style.left = "85%"
+        marker.style.top = "40%"
+        marker.style.left = "70%"
     }
 }
 

@@ -21,7 +21,7 @@ body{
     top: 80%;
     display: flex;
     justify-content: center;
-    
+    flex-wrap: wrap;
 }
 
 #huzas_gomb{
@@ -134,13 +134,6 @@ body{
     background-color: beige;
 }
 
-#ponttabla_bot1{
-    display: none;
-}#ponttabla_bot2{
-    display: none;
-}#ponttabla_bot3{
-    display: none;
-}
 
 .top{
     /* background-color: antiquewhite; */
@@ -155,7 +148,7 @@ body{
 .right{
     /* background-color: antiquewhite; */
     width: 100px;
-    height: 100%;
+    height: auto;
     position: fixed;
     left: 90%;
     display: flex;
@@ -172,7 +165,7 @@ body{
 .left{
     /* background-color: antiquewhite; */
     width: 100px;
-    height: 100%;
+    height: auto;
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -190,6 +183,14 @@ body{
     background-image: url("uno_2.png");
     border-radius: 10px;
 }
+
+.bot_kartyaszam{
+    font-size: 20px;
+    color: beige;
+    display: none;
+    margin-top: 20px;
+}
+
 .szinvalaszto{
     position: fixed;
     top: 50%;
@@ -304,10 +305,26 @@ body{
       } 
     
 @media screen and (max-width:700px) {
-    body>*{
+    .bot_kartya{
         display: none;
     }
-    #playprevention{
+    .bot_kartyaszam{
         display: block;
+    }
+    #huzopakli{
+        display: none;
+    }
+    #ponttabla{
+        display: none !important; 
+    }
+    .jatekos{
+        overflow-y: scroll;
+    }
+    .left{
+        margin-top: 75%;
+    }
+    .right{
+        margin-top: 75%;
+        left: 85%;
     }
 }
