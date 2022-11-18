@@ -415,6 +415,8 @@ function kivalsztas(valasztott_lap) {
                 if (szin == "sz"){
                     document.getElementsByClassName("szinvalaszto")[0].style.visibility = "visible";
                     document.getElementsByClassName("takaro")[0].style.visibility = "visible";
+                    document.querySelector("#ponttabla").style.visibility = "hidden";
+
                 }
                 else{
                     kulonleges_lap_meg_ervenyes = true
@@ -614,6 +616,7 @@ function szinvalasztas(szin) {
     asztalon_levo_kartya = `${szin}-+4`
     document.getElementsByClassName("szinvalaszto")[0].style.visibility = "hidden";
     document.getElementsByClassName("takaro")[0].style.visibility = "hidden";
+    document.querySelector("#ponttabla").style.visibility = "visible";
     kulonleges_lap_meg_ervenyes = true
     tejossz = false
     //A körünk után a botok fognak lépni

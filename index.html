@@ -12,7 +12,7 @@
 
         <div id="start">
             <input id="jatekos_szam" type="number" min="2" max="100" value="2">
-            <!-- <button id="start" onclick="palya_generalas()">Start</button> -->
+            <!-- <div id="start" onclick="palya_generalas()">Start</div> -->
             <div id="start_gomb" onclick="palya_generalas()">
                 <p style="text-align: center;">
                     Start
@@ -41,9 +41,6 @@
                 </tr>
             </table>
         </div>
-    <div id="marker_tarolo">
-        <img src="triangle.png" alt="marker" id="marker">
-    </div>
     <div id="korvege">
         <div id="closeWindow" onclick="hideEND()">
             X
@@ -59,23 +56,25 @@
             Következő kör
         </div>
     </div>
-
+    <div id="marker_tarolo">
+        <img src="triangle.png" alt="marker" id="marker">
+    </div>
 
 
 
     <div class="szinvalaszto">
-        <button onclick="szinvalasztas('p')">
+        <div class="szinvalaszto_gomb" style="color: rgb(230, 11, 22);" onclick="szinvalasztas('p')">
             Piros
-        </button>
-        <button onclick="szinvalasztas('k')">
+        </div>
+        <div class="szinvalaszto_gomb" style="color: rgb(15, 11, 230);" onclick="szinvalasztas('k')">
             Kék
-        </button>
-        <button onclick="szinvalasztas('s')">
+        </div>
+        <div class="szinvalaszto_gomb" style="color: rgb(245, 210, 54);" onclick="szinvalasztas('s')">
             Sárga
-        </button>
-        <button onclick="szinvalasztas('z')">
+        </div>
+        <div class="szinvalaszto_gomb" style="color: rgb(11, 122, 35);" onclick="szinvalasztas('z')">
             Zöld
-        </button>
+        </div>
 
     </div>
     <script src="script.js"></script>
