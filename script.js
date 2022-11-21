@@ -122,6 +122,24 @@ class bot {
             dict[i] += this.pont
     
     }
+
+    botmarker(){
+        if (this.sorszam == 0) {
+            marker.style.transform = "rotate(270deg)"
+            marker.style.top = "50%"
+            marker.style.left = "10%"
+        }
+        else if(this.sorszam == 1){
+            marker.style.transform= "rotate(0deg)"
+            marker.style.top = "20%"
+            marker.style.left = "50%"
+        }
+        else{
+            marker.style.transform = "rotate(90deg)"
+            marker.style.top = "50%"
+            marker.style.left = "85%"
+        }
+    }
         
 
 
@@ -329,7 +347,7 @@ function jatekos_kartya_huzas(huzas_gomb_miatt) {
         //Ha már a játék elkezdődött, tehát ezt nem az első 7 lap között húztuk, akkor a bot köre következik.
         if (huzas_gomb_miatt == true) {
             tejossz = false
-            setTimeout(botok_lepnek, 300);
+            setTimeout(botok_lepnek, 300, 0);
         }
 
     }
@@ -401,7 +419,15 @@ function kivalsztas(valasztott_lap) {
                     kulonleges_lap_meg_ervenyes = true
                     tejossz = false
                     //A körünk után a botok fognak lépni
-                    setTimeout(botok_lepnek, 500);
+                    setTimeout(botok_lepnek, 500, 0);
+                }
+                if(ertek == "♻"){
+                    if(reverse){
+                        reverse = false
+                    }
+                    else{
+                        reverse = true
+                    }
                 }
             }
         }
@@ -409,45 +435,48 @@ function kivalsztas(valasztott_lap) {
     }
 
 
-function botok_lepnek() {
+async function botok_lepnek(sorszam) {
     //A botok szamaval megfeleloen a botok lepnek
     //Undorító késleltetés. setTimeoutban setTimeoutban setTimeout ráadásul csak iffel, de egyszerűen nem találtam másik megoldást, csak olyat, ahol a három valahogy mindig egyszerre futott le
 
-    let content = ""
-    const marker = document.getElementById("marker")
+    // let content = ""
 
-    for (let i = 0; i < botok.length; i++) {
-        content += "setTimeout(function() {\n"
-        setTimeout(markerMozog,i*1000,i)
-    }
+    // for (let i = 0; i < botok.length; i++) {
+        // content += "setTimeout(function() {\n"
+        // setTimeout(markerMozog,i*1000,i)
     if(!reverse){
-        for (let i = botok.length-1; i > -1; i--) {
-            content += `kulonleges_lap_nezes(${i},${reverse})},1000)\n`
+        for (let i = botok.length-sorszam-1; i > -1; i--) {
+            // content += `kulonleges_lap_nezes(${i},${reverse})},1000)\n`
+            contentForBotMove(i,reverse)
+            await sleep(1000)
             if(reverse){
-                break
+                botok_lepnek(i)
+                return
             }
         }
     }
     else{
-        for (let i = 0; i < botok.length; i++) {
-            content += `kulonleges_lap_nezes(${i},${reverse})},1000)\n`
+        for (let i = sorszam; i < botok.length; i++) {
+            // content += `kulonleges_lap_nezes(${i},${reverse})},1000)\n`
+            contentForBotMove(i,reverse)
+            await sleep(1000)
             if(!reverse){
-                break
+                botok_lepnek(i)
+                return
             }
         }
     }
-    const script_content = document.createElement("script");
-    script_content.innerHTML = content
-    document.querySelector("body").appendChild(script_content);
-    setTimeout(function() {script_content.remove()}, botok.length*510)
+    // const script_content = document.createElement("script");
+    // script_content.innerHTML = content
+    // document.querySelector("body").appendChild(script_content);
+    // setTimeout(function() {script_content.remove()}, botok.length*510)
 
 
 
-ido = (jatekosszam)*1000
-setTimeout(te_jossz, ido)
-
+// ido = (jatekosszam)*1000
+// setTimeout(te_jossz, ido)
+te_jossz()
 }
-
 
 function remove() {
 
@@ -508,7 +537,7 @@ function te_jossz() {
                 setTimeout(function(){tejossz = false}, 1000);
                 kulonleges_lap_meg_ervenyes = false
             }
-            botok_lepnek()
+            botok_lepnek(0)
         }
         else if (kulonlegesLap == "+4"){
             for (let i = 0; i < 4; i++) {
@@ -517,21 +546,21 @@ function te_jossz() {
                 setTimeout(function(){tejossz = false}, 1000);
                 kulonleges_lap_meg_ervenyes = false
             }
-            botok_lepnek()
+            botok_lepnek(0)
         }
         else if (kulonlegesLap == "Ø"){
             kulonleges_lap_meg_ervenyes = false
-            botok_lepnek()
+            botok_lepnek(0)
         }
         else if(kulonlegesLap == "reverse"){
             kulonleges_lap_meg_ervenyes = false
             if(reverse){
-                reverse = false
+                // reverse = false
             }
             else{
-                reverse = true
+                // reverse = true
             }
-            botok_lepnek()
+            botok_lepnek(0)
         }
     }
     else{
@@ -600,31 +629,31 @@ function kulonleges_lap_nezes(ind,rev){
         else if (kulonlegesLap == "Ø"){
             kulonleges_lap_meg_ervenyes = false
         }
-        else if(kulonlegesLap == "reverse"){
-            let content = ""
-            if(reverse){
-                reverse = false
-                kulonleges_lap_meg_ervenyes = false
-                for (let i = ind; i > -1; i--) {
-                    if(rev==reverse)
-                    content += `setTimeout(function() {\nkulonleges_lap_nezes(${i},${reverse})},1000)\n`
+        // else if(kulonlegesLap == "reverse"){
+        //     let content = ""
+        //     if(reverse){
+        //         reverse = false
+        //         kulonleges_lap_meg_ervenyes = false
+        //         for (let i = ind; i > -1; i--) {
+        //             if(rev==reverse)
+        //             content += `setTimeout(function() {\nkulonleges_lap_nezes(${i},${reverse})},1000)\n`
                     
-                }
-            }
-            else{
-                reverse = true
-                kulonleges_lap_meg_ervenyes = false
-                for (let i = ind; i < botok.length; i++) {
-                    if(rev==reverse)
-                    content += `setTimeout(function() {\nkulonleges_lap_nezes(${i},${reverse})},1000)\n`
+        //         }
+        //     }
+        //     else{
+        //         reverse = true
+        //         kulonleges_lap_meg_ervenyes = false
+        //         for (let i = ind; i < botok.length; i++) {
+        //             if(rev==reverse)
+        //             content += `setTimeout(function() {\nkulonleges_lap_nezes(${i},${reverse})},1000)\n`
                     
-                }
-            }
-            const script_content = document.createElement("script");
-            script_content.innerHTML = content
-            document.querySelector("body").appendChild(script_content);
-            setTimeout(function() {script_content.remove()}, botok.length*510)
-        }
+        //         }
+        //     }
+        //     const script_content = document.createElement("script");
+        //     script_content.innerHTML = content
+        //     document.querySelector("body").appendChild(script_content);
+        //     setTimeout(function() {script_content.remove()}, botok.length*510)
+        // }
     }
     else{
         botok[ind].bot_tervez_majd_lep()
@@ -638,45 +667,45 @@ function szinvalasztas(szin) {
     kulonleges_lap_meg_ervenyes = true
     tejossz = false
     //A körünk után a botok fognak lépni
-    setTimeout(botok_lepnek, 500);
+    setTimeout(botok_lepnek, 500, 0);
 }
 
 
 function markerMozog(i){
-    const marker = document.getElementById("marker")
-    if(reverse){
-        if(i==0){
-            marker.style.transform = "rotate(90deg)"
-            marker.style.top = "50%"
-            marker.style.left = "85%"
-        }
-        else if(i==1){
-            marker.style.transform= "rotate(0deg)"
-            marker.style.top = "20%"
-            marker.style.left = "50%"
-        }
-        else{
-            marker.style.transform = "rotate(270deg)"
-            marker.style.top = "50%"
-            marker.style.left = "10%"
-        }
-        return
-    }
-    if (i==0) {
-        marker.style.transform = "rotate(270deg)"
-        marker.style.top = "50%"
-        marker.style.left = "10%"
-    }
-    else if(i==1){
-        marker.style.transform= "rotate(0deg)"
-        marker.style.top = "20%"
-        marker.style.left = "50%"
-    }
-    else{
-        marker.style.transform = "rotate(90deg)"
-        marker.style.top = "50%"
-        marker.style.left = "85%"
-    }
+    // const marker = document.getElementById("marker")
+    // if(reverse){
+    //     if(i==0){
+    //         marker.style.transform = "rotate(90deg)"
+    //         marker.style.top = "50%"
+    //         marker.style.left = "85%"
+    //     }
+    //     else if(i==1){
+    //         marker.style.transform= "rotate(0deg)"
+    //         marker.style.top = "20%"
+    //         marker.style.left = "50%"
+    //     }
+    //     else{
+    //         marker.style.transform = "rotate(270deg)"
+    //         marker.style.top = "50%"
+    //         marker.style.left = "10%"
+    //     }
+    //     return
+    // }
+    // if (i==0) {
+    //     marker.style.transform = "rotate(270deg)"
+    //     marker.style.top = "50%"
+    //     marker.style.left = "10%"
+    // }
+    // else if(i==1){
+    //     marker.style.transform= "rotate(0deg)"
+    //     marker.style.top = "20%"
+    //     marker.style.left = "50%"
+    // }
+    // else{
+    //     marker.style.transform = "rotate(90deg)"
+    //     marker.style.top = "50%"
+    //     marker.style.left = "85%"
+    // }
 }
 
 function showHiddenElements() {
@@ -769,4 +798,17 @@ function bigRESET(){
 
 function hideEND(){
     document.getElementById("korvege").style.display = "none"
+}
+
+function contentForBotMove(i, reverse){
+    botok[i].botmarker()
+    let content = `setTimeout(function() {kulonleges_lap_nezes(${i},${reverse})},1000)`
+    const script_content = document.createElement("script");
+    script_content.innerHTML = content
+    document.querySelector("body").appendChild(script_content);
+    setTimeout(function() {script_content.remove()}, botok.length*510)
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
