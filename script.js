@@ -646,8 +646,6 @@ function kulonleges_lap(kartya) {
     switch (ertek) {
         case "Ø":
             return "Ø"
-        case "♻":
-            return "♻"
         case "+4":
             return "+4"
         case "+2":
