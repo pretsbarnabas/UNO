@@ -62,17 +62,18 @@ class bot {
                 asztalon_levo_kartya = `${szin_asztalon}-+4`
             }
             szin_asztalon = szineldontes(szin_asztalon)
-            // setTimeout(dobo_pakli_frissites, 500, szin_asztalon, ertek_asztalon)
-            dobo_pakli_frissites(szin_asztalon,ertek_asztalon)
+            setTimeout(dobo_pakli_frissites, 800, szin_asztalon, ertek_asztalon)
+            // dobo_pakli_frissites(szin_asztalon,ertek_asztalon)
             //A kijátszott_lapok listába belerakjuk a most kijatszott lapot
             kijatszott_lapok.push(asztalon_levo_kartya);
 
             // A most kijátszott kártyát megkeressük és animáció miatt adunk neki egy classt
             let torlendo_kartya = document.querySelector(`.${this.helye} div`);
             torlendo_kartya.style.animationDuration = 500
+            torlendo_kartya.style.display = "block"
             torlendo_kartya.classList.add("slide-left")
             //Töröljük 1 másodperces késleltetéssel a kártyát
-            setTimeout(remove, 500);
+            setTimeout(remove, 900);
         }
         //Ha a bot nem tud lapot rakni akkor húz
         else {
@@ -391,13 +392,13 @@ function kivalsztas(valasztott_lap) {
             while (kartyak[q].classList[1] != valasztott_lap) {
                 q++;
             }
-            // setTimeout(dobo_pakli_frissites, 1000, szin, ertek)
-            dobo_pakli_frissites(szin,ertek)
+            setTimeout(dobo_pakli_frissites, 800, szin, ertek)
+            // dobo_pakli_frissites(szin,ertek)
             //A valasztott lapnak adunk egy classt, hogy az animációt tudjon indítani
             kartyak[q].classList.add('slide-top')
 
             //Egy másodperces késleltetéssel a lapot töröljük a jatekos kezéből
-            setTimeout(remove, 1000);
+            setTimeout(remove, 900);
 
             //A lapot a kijatszott_lapok listaba tesszuk
             kijatszott_lapok.push(valasztott_lap);
