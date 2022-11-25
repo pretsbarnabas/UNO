@@ -8,7 +8,7 @@ class bot {
     
     bot_tervez_majd_lep() {
         if (this.kartyai.length != 0){
-            //Asztalon lévő lap, értékre és színre bontás
+        //Asztalon lévő lap, értékre és színre bontás
         let ertek_asztalon = asztalon_levo_kartya.split("-")[1]
         let szin_asztalon = asztalon_levo_kartya.split("-")[0]
 
@@ -40,7 +40,6 @@ class bot {
                     this.kartyai.splice(p, 1);
                     break;
                 }
-
             }
 
             ertek_asztalon = asztalon_levo_kartya.split("-")[1]
@@ -79,17 +78,18 @@ class bot {
                 asztalon_levo_kartya = `${szin_asztalon}-+4`
             }
             szin_asztalon = szineldontes(szin_asztalon)
-            // setTimeout(dobo_pakli_frissites, 500, szin_asztalon, ertek_asztalon)
-            dobo_pakli_frissites(szin_asztalon,ertek_asztalon)
+            setTimeout(dobo_pakli_frissites, 800, szin_asztalon, ertek_asztalon)
+            // dobo_pakli_frissites(szin_asztalon,ertek_asztalon)
             //A kijátszott_lapok listába belerakjuk a most kijatszott lapot
             kijatszott_lapok.push(asztalon_levo_kartya);
 
             // A most kijátszott kártyát megkeressük és animáció miatt adunk neki egy classt
             let torlendo_kartya = document.querySelector(`.${this.helye} div`);
             torlendo_kartya.style.animationDuration = 500
+            torlendo_kartya.style.display = "block"
             torlendo_kartya.classList.add("slide-left")
             //Töröljük 1 másodperces késleltetéssel a kártyát
-            setTimeout(remove, 500);
+            setTimeout(remove, 900);
         }
         //Ha a bot nem tud lapot rakni akkor húz
         else {
@@ -98,10 +98,20 @@ class bot {
         //Kiürítjük a listát.
         kartya_amit_le_tud_tenni_a_bot = []
         }
+        if (this.kartyai.length == 1){
+            const uno_bot = Math.floor(Math.random() * 100);
+            if (uno_bot < 5){
+                for (let i = 0; i < 2; i++) {
+                    this.bot_laphuzas()
+                }
+            }
+        }
         if (this.kartyai.length == 0){
             korVegeScreen(`bot${this.sorszam+1}`)
-            // palya_generalas()
         }
+
+        let kartya_szam = document.querySelector(`.${this.helye} p`);
+        kartya_szam.innerText = "Lapok száma: " + this.kartyai.length
 }
     bot_laphuzas() {
         //Húzunk egy random lapot a huzopakliból
@@ -114,6 +124,8 @@ class bot {
         const kartyak = document.createElement("div");
         kartyak.classList.add('bot_kartya')
         document.querySelector(`.${this.helye}`).appendChild(kartyak);
+        let kartya_szam = document.querySelector(`.${this.helye} p`);
+        kartya_szam.innerText = "Lapok száma: " + this.kartyai.length
     }
 
 
@@ -178,6 +190,8 @@ let jatekos_pontjai = 0
 let dict = {}
 let kulonleges_lap_meg_ervenyes = false
 let irany = "balra"
+let say_uno = false
+let kene_unot_nyomni = false
 
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
@@ -206,6 +220,7 @@ function palya_generalas() {
     const jatek_tabla = document.createElement("div");
     jatek_tabla.classList.add('jatekos');
     document.querySelector(".jatektabla").appendChild(jatek_tabla);
+
 
     tejossz = true
     //7 kártyát oszt a jatekosnak
@@ -265,6 +280,10 @@ function palya_generalas() {
             kartyak.classList.add('bot_kartya')
             document.querySelector(`.${botok[i].helye}`).appendChild(kartyak);
         }
+        const kiiras = document.createElement("p");
+        kiiras.classList.add('bot_kartyaszam')
+        document.querySelector(`.${botok[i].helye}`).appendChild(kiiras);
+        kiiras.innerText = "Lapok száma: 7"
     }
     
     //Elkezdődik a játék.
@@ -408,28 +427,32 @@ function kivalsztas(valasztott_lap) {
             while (kartyak[q].classList[1] != valasztott_lap) {
                 q++;
             }
-            // setTimeout(dobo_pakli_frissites, 1000, szin, ertek)
-            dobo_pakli_frissites(szin,ertek)
+            setTimeout(dobo_pakli_frissites, 800, szin, ertek)
+            // dobo_pakli_frissites(szin,ertek)
             //A valasztott lapnak adunk egy classt, hogy az animációt tudjon indítani
             kartyak[q].classList.add('slide-top')
 
             //Egy másodperces késleltetéssel a lapot töröljük a jatekos kezéből
-            setTimeout(remove, 1000);
+            setTimeout(remove, 900);
 
             //A lapot a kijatszott_lapok listaba tesszuk
             kijatszott_lapok.push(valasztott_lap);
 
             //A lapot aktív lappá tesszük
             asztalon_levo_kartya = valasztott_lap
+            if (kartyak.length == 2){
+                kene_unot_nyomni = true
+            }
 
             if (kartyak.length == 1) {
                 korVegeScreen("játékos")
-                // palya_generalas()
             }
             else{
                 if (szin == "sz"){
                     document.getElementsByClassName("szinvalaszto")[0].style.visibility = "visible";
                     document.getElementsByClassName("takaro")[0].style.visibility = "visible";
+                    document.querySelector("#ponttabla").style.visibility = "hidden";
+
                 }
                 else{
                     kulonleges_lap_meg_ervenyes = true
@@ -568,6 +591,16 @@ function dobo_pakli_frissites(szin, ertek){
 }
 
 function te_jossz() {
+    if (kene_unot_nyomni == true){
+        if (say_uno == false){
+            for (let i = 0; i < 2; i++) {
+                tejossz = true
+                jatekos_kartya_huzas(false)
+            }
+        }
+        kene_unot_nyomni = false
+        say_uno = false
+    }
     let marker = document.getElementById("marker")
     marker.style.transform = "rotate(180deg)"
     marker.style.top = "75%"
@@ -715,6 +748,7 @@ function szinvalasztas(szin) {
     asztalon_levo_kartya = `${szin}-+4`
     document.getElementsByClassName("szinvalaszto")[0].style.visibility = "hidden";
     document.getElementsByClassName("takaro")[0].style.visibility = "hidden";
+    document.querySelector("#ponttabla").style.visibility = "visible";
     kulonleges_lap_meg_ervenyes = true
     tejossz = false
     //A körünk után a botok fognak lépni
@@ -764,6 +798,7 @@ function showHiddenElements() {
     document.getElementById("huzas_gomb").style.display = "block"
     document.getElementById("marker").style.display = "block"
     document.getElementById("start").style.display = "none"
+    document.getElementById("uno_gomb").style.display = "block"
 }
 
 function korVegeScreen(nyertes){
@@ -772,6 +807,8 @@ function korVegeScreen(nyertes){
     document.getElementById("ponttabla").style.display = "none"
     document.getElementById("marker").style.display = "none"
     document.getElementById("closeWindow").style.display = "none"
+    document.getElementById("uno_gomb").style.display = "none"
+    document.getElementById("huzas_gomb").style.display = "none"
     document.getElementById("nyertes").innerText = `A kör nyertese: ${nyertes}`
     const elemek = document.querySelectorAll("#korVegePontok>*")
     for (let i = 0; i < elemek.length; i++) {
@@ -849,6 +886,19 @@ function bigRESET(){
 
 function hideEND(){
     document.getElementById("korvege").style.display = "none"
+}
+
+function uno(){
+    if (kene_unot_nyomni == false){
+        for (let i = 0; i < 2; i++) {
+            tejossz = true
+            jatekos_kartya_huzas(false)
+        }
+    }else{
+        say_uno = true
+    }
+    kene_unot_nyomni = false;
+
 }
 
 function contentForBotMove(i, reverse,fromPlayer){
