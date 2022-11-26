@@ -484,7 +484,7 @@ async function botok_lepnek(sorszam,fromPlayer) {
         // content += "setTimeout(function() {\n"
         // setTimeout(markerMozog,i*1000,i)
     if(!reverse){
-        for (let i = botok.length-1; i > -1; i--) {
+        for (let i = botok.length-1-sorszam; i > -1; i--) {
             // content += `kulonleges_lap_nezes(${i},${reverse})},1000)\n`
             contentForBotMove(i,reverse,false)
             await sleep(1000)
@@ -494,14 +494,12 @@ async function botok_lepnek(sorszam,fromPlayer) {
                 return
                }
                else{
-                if(i==2){
-                    botok_lepnek(1,false)
-                }
-                else if(i==1){
+   
+                if(i==1){
                     botok_lepnek(2,false)
                 }
                 else{
-                    botok_lepnek(i-1,false)
+                    botok_lepnek(1,false)
                 }
                 return
 
@@ -526,9 +524,6 @@ async function botok_lepnek(sorszam,fromPlayer) {
                     }
                     else if(i==1){
                         botok_lepnek(2,false)
-                    }
-                    else{
-                        botok_lepnek(i-1,false)
                     }
                     return
 
