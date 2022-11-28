@@ -1,10 +1,17 @@
 body{
     margin: 0;
-    background-image: url(hatter.jpg);
     font-size: 16pt;
+    background-image: url("https://bigrat.monster/media/bigrat.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #272525;
 }
 .jatekos_kartya{
     background-color: grey;
+    background-image: url("images/card_front.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 60px 90px;
     width: 60px;
     height: 90px;
     display: inline-block;
@@ -14,6 +21,7 @@ body{
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    color: black;
 }
 
 .jatekos_kartya:hover{
@@ -24,9 +32,12 @@ body{
     margin-top: -30px;
     width: 80px;
     height: 120px;
+    font-size: 53px !important;
+    background-size: 80px 125px;
     padding-bottom: 5px;
     
 }
+
 
 .jatekos{
     /* background-color: antiquewhite; */
@@ -44,7 +55,6 @@ body{
     top: 75%;
     left: 40%;
     border: 2px solid black;
-    background-color: bisque;
     height: 25px;
     width: 50px;
     display: none;
@@ -53,19 +63,12 @@ body{
     font-size: 16pt;
 }
 
-#huzas_gomb:hover{
-    border: 2px solid white;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-}
 
 #uno_gomb{
     position: fixed;
     top: 75%;
     left: 57%;
     border: 2px solid black;
-    background-color: bisque;
     height: 25px;
     width: 50px;
     display: none;
@@ -75,20 +78,25 @@ body{
     text-align: center;
 }
 
-#uno_gomb:hover{
-    border: 2px solid white;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-}
 
 #dobopakli{
     width: 60px;
     height: 90px;
+    background-repeat: no-repeat;
+    background-size: 60px 90px;
     position: fixed;
     top: 30%;
     left: 40%;
     border-radius: 10px;
+}
+.card_back{
+    background-image: url("images/card_back.png");
+}
+.card_front{
+    background-image: url("images/card_front.png");
+}
+#dobopakli_ertek{
+    padding-top: 0;
 }
 
 #huzopakli{
@@ -99,7 +107,9 @@ body{
     position: fixed;
     top: 30%;
     left: 50%;
-    background-image: url("uno_2.png");
+    background-image: url("images/card_back.png");
+    background-repeat: no-repeat;
+    background-size: 60px 90px;
     border-radius: 10px;
     box-shadow: -8px 2px 0px 1px #161414;
 }
@@ -115,7 +125,6 @@ body{
 #start_gomb{
     margin-right: 5px;
     border: 2px solid black;
-    background-color: bisque;
     height: 25px;
     width: 50px;
     display: flex;
@@ -126,8 +135,6 @@ body{
 }
 
 #start_gomb:hover{
-    border: 2px solid white;
-    background-color: black;
     color: white;
     cursor: pointer;
 }
@@ -136,7 +143,7 @@ body{
     text-align: center;
     margin-top: 20px;
     font-size: 40px;
-    color: aliceblue;
+    padding-top: 15px;
 }
 
 #ponttabla{
@@ -195,7 +202,9 @@ body{
     display: inline-block;
     margin-right: 10px;
     margin-top: 5px;
-    background-image: url("uno_2.png");
+    background-image: url("images/card_back.png");
+    background-repeat: no-repeat;
+    background-size: 60px 90px;
     border-radius: 10px;
 }
 
@@ -208,28 +217,30 @@ body{
 
 .szinvalaszto{
     position: fixed;
-    top: 50%;
-    left: 34%;
+    top: 45%;
+    left: 36%;
+    width: 500px;
     border-color: black;
     border-style: solid;
     border-width: 3px;
     padding: 10px;
     visibility: hidden;
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-evenly;
     background-color: #634b34c4;
 }
 .szinvalaszto_gomb{
-    background-color: bisque;
+    background-color: #0a0e13 ;
     width: auto;
     height: auto;
     margin: 10px;
     padding: 5px;
+    font-size: 40pt;
 }
 .szinvalaszto_gomb:hover{
     border: 0px solid white;
     background-color: black;
-    color: white;
+    background-color: white;
     cursor: pointer;
 }
 
@@ -279,6 +290,15 @@ body{
     padding: 5px;
 }
 #korVegeGomb:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+.gomb{
+    background-color: white;
+    border: 2px solid black;
+    width: fit-content;
+}
+.gomb:hover{
     cursor: pointer;
     background-color: grey;
 }
@@ -333,11 +353,13 @@ body{
         /* 50%{
             width: 70px;
             height: 105px;
+            background-size: 75px 105px;
             margin-top: -15px;
         } */
         100%{
             width: 80px;
             height: 120px;
+            background-size: 80px 125px;
             margin-top: -30px;
             padding-bottom: 5px;
       @keyframes slide-right {

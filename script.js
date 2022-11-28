@@ -339,7 +339,7 @@ function kezdo_kartya_huzas() {
 
     //Beállítja a dobópakli színét és értékét a húzott random lapra
     document.querySelector("#dobopakli").style.backgroundColor = `${szin}`;
-    document.querySelector("#dobopakli").innerHTML = `<p class="ertek">${ertek}</p>`;
+    document.querySelector("#dobopakli").innerHTML = `<p class="ertek" id="dobopakli_ertek">${ertek}</p>`;
 
     //A kijátszott lapok közé kerül a kezdő kártya
     kijatszott_lapok.push(valasztott_lap);
@@ -587,7 +587,7 @@ function szineldontes(szin) {
 
 function dobo_pakli_frissites(szin, ertek){
     document.querySelector("#dobopakli").style.backgroundColor = `${szin}`;
-    document.querySelector("#dobopakli").innerHTML = `<p class="ertek">${ertek}</p>`;
+    document.querySelector("#dobopakli").innerHTML = `<p class="ertek" id="dobopakli_ertek">${ertek}</p>`;
     document.querySelector("#dobopakli").style.backgroundImage = "";
     if (szin == "sz"){
         document.querySelector("#dobopakli").style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
@@ -802,6 +802,8 @@ function showHiddenElements() {
     document.getElementById("huzas_gomb").style.display = "block"
     document.getElementById("marker").style.display = "block"
     document.getElementById("start").style.display = "none"
+    document.getElementById("dobopakli").classList.remove("card_back")
+    document.getElementById("dobopakli").classList.add("card_front")
 }
 
 function korVegeScreen(nyertes){
@@ -879,6 +881,8 @@ function bigRESET(){
     document.getElementById("dobopakli").style.backgroundColor = "grey"
     document.querySelector("#dobopakli>.ertek").style.display = "none"
     document.getElementById("huzas_gomb").style.display = "none"
+    document.getElementById("dobopakli").classList.add("card_back")
+    document.getElementById("dobopakli").classList.remove("card_front")
     for (let i = 0; i < Object.keys(dict).length; i++) {
         dict[i] = 0;
     }
