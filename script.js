@@ -431,6 +431,7 @@ function kivalsztas(valasztott_lap) {
             // dobo_pakli_frissites(szin,ertek)
             //A valasztott lapnak adunk egy classt, hogy az animációt tudjon indítani
             kartyak[q].classList.add('slide-top')
+            kartyak[q].style.pointerEvents = "none"
 
             //Egy másodperces késleltetéssel a lapot töröljük a jatekos kezéből
             setTimeout(remove, 900);
