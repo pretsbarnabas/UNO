@@ -287,8 +287,13 @@ function palya_generalas() {
     }
     
     //Elkezdődik a játék.
+    let marker = document.getElementById("marker")
+    marker.style.transform = "rotate(180deg)"
+    marker.style.top = "75%"
+    marker.style.left = "50%"
     start = true
     tejossz = true
+    
 }
 
 //Az eredeti kiinduló pontot állítja vissza
@@ -443,6 +448,10 @@ function kivalsztas(valasztott_lap) {
             asztalon_levo_kartya = valasztott_lap
             if (kartyak.length == 2){
                 kene_unot_nyomni = true
+                document.getElementById("uno_gomb").style.display = "block"
+            }
+            else{
+                document.getElementById("uno_gomb").style.display = "none"
             }
 
             if (kartyak.length == 1) {
@@ -592,6 +601,7 @@ function te_jossz() {
             for (let i = 0; i < 2; i++) {
                 tejossz = true
                 jatekos_kartya_huzas(false)
+                document.getElementById("uno_gomb").style.display = "none"
             }
         }
         kene_unot_nyomni = false
@@ -792,7 +802,6 @@ function showHiddenElements() {
     document.getElementById("huzas_gomb").style.display = "block"
     document.getElementById("marker").style.display = "block"
     document.getElementById("start").style.display = "none"
-    document.getElementById("uno_gomb").style.display = "block"
 }
 
 function korVegeScreen(nyertes){
@@ -890,6 +899,7 @@ function uno(){
         }
     }else{
         say_uno = true
+        document.getElementById("uno_gomb").style.display = "none"
     }
     kene_unot_nyomni = false;
 
