@@ -302,7 +302,7 @@ body{
     cursor: pointer;
     background-color: grey;
 }
-#closeWindow{
+.closeWindow{
     margin-left: 375px;
     margin-top: 5px;
     border: 2px solid black;
@@ -311,9 +311,30 @@ body{
     padding: 2px;
     background-color: white;
 }
-#closeWindow:hover{
+.closeWindow:hover{
     cursor: pointer;
     background-color: grey;
+}
+#options-button-container{
+    color: beige;
+    text-align: right;
+    padding-right: 10px;
+}
+#options-button:hover{
+    color: darkgoldenrod;
+    cursor: pointer;
+}
+#options{
+    position: fixed;
+    background-color: bisque;
+    width: 400px;
+    height: 500px;
+    left: 40%;
+    top: 20%;
+    text-align: center;
+    align-items: center;
+    display: none;
+    z-index: 10;
 }
 
 

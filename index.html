@@ -10,6 +10,21 @@
 </head>
 <body oncanplaythrough="console.log('something')">
 
+        <div id="options-button-container"> 
+            <span onclick="displayOptions()" id="options-button">⚙</span>
+            
+        </div>
+         <div id="options">
+             <div class="closeWindow" onclick="hideOptions()">
+                 X
+             </div>
+            <h2>Options</h2>
+            <p>
+                Háttér
+                <input type="checkbox" name="hatter" id="hatterToggle" onclick="hatterToggle()" checked>
+            </p>
+         </div>
+        </div>
         <div id="start">
             <input id="jatekos_szam" type="number" min="2" max="100" value="2">
             <!-- <div id="start" onclick="palya_generalas()">Start</div> -->
@@ -42,7 +57,7 @@
             </table>
         </div>
     <div id="korvege">
-        <div id="closeWindow" onclick="hideEND()">
+        <div class="closeWindow" onclick="hideEND()">
             X
         </div>
         <div>

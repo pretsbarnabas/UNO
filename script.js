@@ -75,7 +75,7 @@ class bot {
                     if(maxi < b[k]) { max=k; maxi=b[k] }
                 }
                 szin_asztalon = max
-                asztalon_levo_kartya = `${szin_asztalon}-+4`
+                asztalon_levo_kartya = `${szin_asztalon}-${ertek_asztalon}`
             }
             szin_asztalon = szineldontes(szin_asztalon)
             setTimeout(dobo_pakli_frissites, 800, szin_asztalon, ertek_asztalon)
@@ -313,7 +313,7 @@ function reset() {
     // A legelső lapot a huzo_paklibol valasztja, hogy az első lap ne legyen valamilyen különleges lap, ezért a különleges lapokat, majd a kezdő kartya sorsolása után adjuk hozzá
     huzo_pakli = ["s-1", "s-1", "s-2", "s-2", "s-3", "s-3", "s-4", "s-4", "s-5", "s-5", "s-6", "s-6", "s-7", "s-7", "s-8", "s-8", "s-9", "s-9", "s-0", "p-1", "p-1", "p-2", "p-2", "p-3", "p-3", "p-4", "p-4", "p-5", "p-5", "p-6", "p-6", "p-7", "p-7", "p-8", "p-8", "p-9", "p-9", "p-0", "k-1", "k-1", "k-2", "k-2", "k-3", "k-3", "k-4", "k-4", "k-5", "k-5", "k-6", "k-6", "k-7", "k-7", "k-8", "k-8", "k-9", "k-9", "k-0", "z-1", "z-1", "z-2", "z-2", "z-3", "z-3", "z-4", "z-4", "z-5", "z-5", "z-6", "z-6", "z-7", "z-7", "z-8", "z-8", "z-9", "z-9", "z-0"];
     // kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-♻", "s-♻", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-♻", "p-♻", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-♻", "k-♻", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-♻", "z-♻", "z-Ø", "z-Ø"];
-    kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-Ø", "z-Ø", "k-♻", "k-♻","z-♻","z-♻","p-♻","p-♻","s-♻","s-♻"];
+    kulonleges_lapok = ["z-+2", "z-+2", "f-+4", "f-+4", "sz-+4", "sz-+4", "s-Ø", "s-Ø", "s-+2", "s-+2", "p-Ø", "p-Ø", "p-+2", "p-+2", "k-Ø", "k-Ø", "k-+2", "k-+2", "z-Ø", "z-Ø", "k-♻", "k-♻","z-♻","z-♻","p-♻","p-♻","s-♻","s-♻","sz-?","sz-?"];
     //jatekos kezben_tartott_lapjai
     kezben_tartott_lapok = [];
     //Az osszes kijatszott lap (ezt keverjuk ujra, ha elfogy a huzopakli)
@@ -382,7 +382,7 @@ function jatekos_kartya_huzas(huzas_gomb_miatt) {
         //Ha nem színváltó, ráírjuk, milyen kártya
         kartyak.innerHTML = `<p class="ertek">${ertek}</p>`;
         if (szin == "sz"){
-            kartyak.style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
+            kartyak.style.backgroundImage = "url('images/szinvalto.png')";
         }
         //Ha már a játék elkezdődött, tehát ezt nem az első 7 lap között húztuk, akkor a bot köre következik.
         if (huzas_gomb_miatt == true) {
@@ -499,7 +499,7 @@ async function botok_lepnek(sorszam,fromPlayer) {
             contentForBotMove(i,reverse,false)
             await sleep(1000)
             if(reverse){
-               if(i==2){
+               if(i==(botok.length-1)){
                 te_jossz()
                 return
                }
@@ -590,7 +590,7 @@ function dobo_pakli_frissites(szin, ertek){
     document.querySelector("#dobopakli").innerHTML = `<p class="ertek" id="dobopakli_ertek">${ertek}</p>`;
     document.querySelector("#dobopakli").style.backgroundImage = "";
     if (szin == "sz"){
-        document.querySelector("#dobopakli").style.backgroundImage = "linear-gradient(rgb(245, 210, 54), rgb(15, 11, 230), rgb(230, 11, 22), rgb(11, 122, 35))";
+        document.querySelector("#dobopakli").style.backgroundImage = "url('images/szinvalto.png')";
     }
 
 }
@@ -639,7 +639,7 @@ function te_jossz() {
             botok_lepnek(0,false)
         }
         else if(kulonlegesLap == "reverse"){
-            kulonleges_lap_meg_ervenyes = false
+            tejossz = true
         }
     }
     else{
@@ -749,7 +749,8 @@ function kulonleges_lap_nezes(ind,rev,fromPlayer){
 }
 
 function szinvalasztas(szin) {
-    asztalon_levo_kartya = `${szin}-+4`
+    ertek = asztalon_levo_kartya.split("-")[1]
+    asztalon_levo_kartya = `${szin}-${ertek}`
     document.getElementsByClassName("szinvalaszto")[0].style.visibility = "hidden";
     document.getElementsByClassName("takaro")[0].style.visibility = "hidden";
     document.querySelector("#ponttabla").style.visibility = "visible";
@@ -802,6 +803,7 @@ function showHiddenElements() {
     document.getElementById("huzas_gomb").style.display = "block"
     document.getElementById("marker").style.display = "block"
     document.getElementById("start").style.display = "none"
+    document.getElementById("options-button-container").style.display = "none"
     document.getElementById("dobopakli").classList.remove("card_back")
     document.getElementById("dobopakli").classList.add("card_front")
 }
@@ -881,6 +883,7 @@ function bigRESET(){
     document.getElementById("dobopakli").style.backgroundColor = "grey"
     document.querySelector("#dobopakli>.ertek").style.display = "none"
     document.getElementById("huzas_gomb").style.display = "none"
+    document.getElementById("options-button-container").style.display = "block"
     document.getElementById("dobopakli").classList.add("card_back")
     document.getElementById("dobopakli").classList.remove("card_front")
     for (let i = 0; i < Object.keys(dict).length; i++) {
@@ -916,6 +919,21 @@ function contentForBotMove(i, reverse,fromPlayer){
     script_content.innerHTML = content
     document.querySelector("body").appendChild(script_content);
     setTimeout(function() {script_content.remove()}, botok.length*510)
+}
+
+function hatterToggle(){
+    if(document.getElementById("hatterToggle").checked){
+        document.querySelector("body").style.backgroundImage = "url('https://bigrat.monster/media/bigrat.png')"
+    }
+    else{
+        document.querySelector("body").style.backgroundImage = "none"
+    }
+}
+function displayOptions(){
+    document.getElementById("options").style.display = "block"
+}
+function hideOptions(){
+    document.getElementById("options").style.display = "none"
 }
 
 function sleep(ms) {
