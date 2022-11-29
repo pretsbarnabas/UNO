@@ -588,7 +588,7 @@ function szineldontes(szin) {
 function dobo_pakli_frissites(szin, ertek){
     document.querySelector("#dobopakli").style.backgroundColor = `${szin}`;
     document.querySelector("#dobopakli").innerHTML = `<p class="ertek" id="dobopakli_ertek">${ertek}</p>`;
-    document.querySelector("#dobopakli").style.backgroundImage = "";
+    document.querySelector("#dobopakli").style.backgroundImage = "url('images/card_front.png')";
     if (szin == "sz"){
         document.querySelector("#dobopakli").style.backgroundImage = "url('images/szinvalto.png')";
     }
@@ -841,12 +841,11 @@ function korVegeScreen(nyertes){
 
 // ez nyom egy big resetet
 function bigRESET(){
-    pontozas()
     const elemek = document.querySelectorAll("#korVegePontok>*")
     for (let i = 0; i < elemek.length; i++) {
         elemek[i].remove()
     }
-    let minPont = 0
+    let minPont = 10000
     let minIndex = 0
     for (let i = 0; i < Object.keys(dict).length; i++) {
         if(dict[i]<minPont){
