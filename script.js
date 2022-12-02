@@ -601,9 +601,9 @@ function te_jossz() {
             for (let i = 0; i < 2; i++) {
                 tejossz = true
                 jatekos_kartya_huzas(false)
-                document.getElementById("uno_gomb").style.display = "none"
             }
         }
+        document.getElementById("uno_gomb").style.display = "none"
         kene_unot_nyomni = false
         say_uno = false
     }
