@@ -5,6 +5,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #272525;
+    
 }
 .jatekos_kartya{
     background-color: grey;
@@ -22,6 +23,7 @@ body{
     align-items: center;
     border-radius: 10px;
     color: black;
+    user-select: none;
 }
 
 .jatekos_kartya:hover{
@@ -35,6 +37,7 @@ body{
     font-size: 53px !important;
     background-size: 80px 125px;
     padding-bottom: 5px;
+    user-select: none;
     
 }
 
@@ -76,6 +79,7 @@ body{
     align-items: center;
     font-size: 16pt;
     text-align: center;
+    user-select: none;
 }
 
 
@@ -88,6 +92,7 @@ body{
     top: 30%;
     left: 40%;
     border-radius: 10px;
+    user-select: none;
 }
 .card_back{
     background-image: url("images/card_back.png") !important; 
@@ -97,6 +102,7 @@ body{
 }
 #dobopakli_ertek{
     padding-top: 0;
+    user-select: none;
 }
 
 #huzopakli{
@@ -112,6 +118,7 @@ body{
     background-size: 60px 90px;
     border-radius: 10px;
     box-shadow: -8px 2px 0px 1px #161414;
+    user-select: none;
 }
 
 #start{
@@ -132,11 +139,13 @@ body{
     padding-left: 5px;
     align-items: center;
     font-size: 16pt;
+    user-select: none;
 }
 
 #start_gomb:hover{
     color: white;
     cursor: pointer;
+    user-select: none;
 }
 
 .ertek{
@@ -144,6 +153,7 @@ body{
     margin-top: 20px;
     font-size: 40px;
     padding-top: 15px;
+    user-select: none;
 }
 
 #ponttabla{
@@ -236,6 +246,7 @@ body{
     margin: 10px;
     padding: 5px;
     font-size: 40pt;
+    user-select: none;
 }
 .szinvalaszto_gomb:hover{
     border: 0px solid white;
@@ -297,10 +308,12 @@ body{
     background-color: white;
     border: 2px solid black;
     width: fit-content;
+    user-select: none;
 }
 .gomb:hover{
     cursor: pointer;
     background-color: grey;
+    user-select: none;
 }
 .closeWindow{
     margin-left: 375px;
@@ -319,10 +332,12 @@ body{
     color: beige;
     text-align: right;
     padding-right: 10px;
+    user-select: none;
 }
 #options-button:hover{
     color: darkgoldenrod;
     cursor: pointer;
+    user-select: none;
 }
 #options{
     position: fixed;
