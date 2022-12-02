@@ -639,7 +639,7 @@ function te_jossz() {
             botok_lepnek(0,false)
         }
         else if(kulonlegesLap == "reverse"){
-            tejossz = true
+            setTimeout(function() {tejossz = true}, 3000)
         }
     }
     else{
@@ -685,7 +685,7 @@ function pontozas(){
     document.getElementById("jatekospont").innerHTML = jatekos_pontjai
 }
 
-function kulonleges_lap_nezes(ind,rev,fromPlayer){
+function kulonleges_lap_nezes(ind,rev){
     if (kulonleges_lap_meg_ervenyes == true){
         kulonlegesLap = kulonleges_lap(asztalon_levo_kartya)
         if (kulonlegesLap == "nem különleges"){
@@ -756,46 +756,9 @@ function szinvalasztas(szin) {
     document.querySelector("#ponttabla").style.visibility = "visible";
     kulonleges_lap_meg_ervenyes = true
     tejossz = false
+    dobo_pakli_frissites(szineldontes(szin),ertek)
     //A körünk után a botok fognak lépni
     setTimeout(botok_lepnek, 500, 0,false);
-}
-
-
-function markerMozog(i){
-    // const marker = document.getElementById("marker")
-    // if(reverse){
-    //     if(i==0){
-    //         marker.style.transform = "rotate(90deg)"
-    //         marker.style.top = "50%"
-    //         marker.style.left = "85%"
-    //     }
-    //     else if(i==1){
-    //         marker.style.transform= "rotate(0deg)"
-    //         marker.style.top = "20%"
-    //         marker.style.left = "50%"
-    //     }
-    //     else{
-    //         marker.style.transform = "rotate(270deg)"
-    //         marker.style.top = "50%"
-    //         marker.style.left = "10%"
-    //     }
-    //     return
-    // }
-    // if (i==0) {
-    //     marker.style.transform = "rotate(270deg)"
-    //     marker.style.top = "50%"
-    //     marker.style.left = "10%"
-    // }
-    // else if(i==1){
-    //     marker.style.transform= "rotate(0deg)"
-    //     marker.style.top = "20%"
-    //     marker.style.left = "50%"
-    // }
-    // else{
-    //     marker.style.transform = "rotate(90deg)"
-    //     marker.style.top = "50%"
-    //     marker.style.left = "85%"
-    // }
 }
 
 function showHiddenElements() {
