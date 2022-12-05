@@ -225,7 +225,7 @@ function palya_generalas() {
 
     tejossz = true
     //7 kártyát oszt a jatekosnak
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 2; i++) {
         jatekos_kartya_huzas(false);
     }
 
