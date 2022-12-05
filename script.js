@@ -193,6 +193,7 @@ let kulonleges_lap_meg_ervenyes = false
 let irany = "balra"
 let say_uno = false
 let kene_unot_nyomni = false
+let content = 'a'
 
 
 // Legenerálja a pályát, kiosztja az kezdőlapokat.
@@ -286,6 +287,13 @@ function palya_generalas() {
         document.querySelector(`.${botok[i].helye}`).appendChild(kiiras);
         kiiras.innerText = "Lapok száma: 7"
     }
+    try {
+        document.querySelector(".pyro2").remove()
+    } catch (error) {
+        
+    }
+    
+    
     
     //Elkezdődik a játék.
     let marker = document.getElementById("marker")
@@ -774,6 +782,12 @@ function showHiddenElements() {
 
 function korVegeScreen(nyertes){
     pontozas()
+    content = '<div class="pyro2"><div class="before2"></div><div class="after2"></div></div>'
+    const particle2 = document.createElement("div");
+    particle2.innerHTML = content
+    document.querySelector("body").appendChild(particle2);
+
+    
     document.getElementById("korvege").style.display = "block"
     document.getElementById("ponttabla").style.display = "none"
     document.getElementById("marker").style.display = "none"
@@ -788,7 +802,7 @@ function korVegeScreen(nyertes){
     for (let i = 0; i < botok.length; i++) {
         botok[i].botpontozas(i);   
     }
-    let content = `játékos: ${jatekos_pontjai}`
+    content = `játékos: ${jatekos_pontjai}`
     const jatekospont = document.createElement("p")
     jatekospont.innerHTML = content
     document.querySelector("#korVegePontok").appendChild(jatekospont)
@@ -870,9 +884,14 @@ function uno(){
     }else{
         say_uno = true
         document.getElementById("uno_gomb").style.display = "none"
+
+        content = '<div class="pyro"><div class="before"></div><div class="after"></div></div>'
+        const particle = document.createElement("div");
+        particle.innerHTML = content
+        document.querySelector("body").appendChild(particle);
+        setTimeout(function() {particle.remove()}, 1000)
     }
     kene_unot_nyomni = false;
-
 }
 
 function contentForBotMove(i, reverse,fromPlayer){
