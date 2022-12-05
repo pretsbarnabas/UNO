@@ -396,6 +396,7 @@ function jatekos_kartya_huzas(huzas_gomb_miatt) {
         //Ha már a játék elkezdődött, tehát ezt nem az első 7 lap között húztuk, akkor a bot köre következik.
         if (huzas_gomb_miatt == true) {
             tejossz = false
+            document.getElementById("huzas_gomb").style.display = "none"
             setTimeout(botok_lepnek, 300, 0, false);
         }
 
@@ -453,6 +454,7 @@ function kivalsztas(valasztott_lap) {
             //A lapot a kijatszott_lapok listaba tesszuk
             kijatszott_lapok.push(valasztott_lap);
 
+            document.getElementById("huzas_gomb").style.display = "none"
             //A lapot aktív lappá tesszük
             asztalon_levo_kartya = valasztott_lap
             if (kartyak.length == 2){
@@ -624,6 +626,7 @@ function te_jossz() {
         kulonlegesLap = kulonleges_lap(asztalon_levo_kartya)
         if (kulonlegesLap == "nem különleges"){
             tejossz = true
+            document.getElementById("huzas_gomb").style.display = "block"
         }
         else if (kulonlegesLap == "+2"){
             for (let i = 0; i < 2; i++) {
@@ -649,11 +652,14 @@ function te_jossz() {
         }
         else if(kulonlegesLap == "reverse"){
             tejossz = true
+            document.getElementById("huzas_gomb").style.display = "block"
         }
     }
     else{
         tejossz = true
+        document.getElementById("huzas_gomb").style.display = "block"
     }
+
 }
 
 function kulonleges_lap(kartya) {
