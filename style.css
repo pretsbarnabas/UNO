@@ -351,6 +351,10 @@ body{
     display: none;
     z-index: 10;
 }
+.align-left{
+    text-align: start;
+    padding-left: 10px;
+}
 
 
 /* Animációk */
@@ -427,6 +431,7 @@ body{
     }
     .bot_kartyaszam{
         display: block;
+        margin-right: 40px;
     }
     #huzopakli{
         display: none;
@@ -443,5 +448,41 @@ body{
     .right{
         margin-top: 75%;
         left: 85%;
+    }
+    #options{
+        width: 300px;
+        height: 400px;
+        left: 20%;
+    }
+    .closeWindow{
+        margin-left: 270px;
+    }
+    .szinvalaszto{
+        left: 5%;
+        width: 400px;
+    }
+    .jatekos{
+        height: 170px;
+    }
+    .jatekos_kartya:hover{
+        animation-name: none;
+    }
+    #korvege{
+        width: 300px;
+        height: 400px;
+        left: 20%;
+    }
+    #huzas_gomb{
+        left: 20%;
+        top: 65%;
+        height: 40px;
+        width: 75px;
+        font-size: 24pt;
+    }
+    #uno_gomb{
+        top: 65%;
+        height: 40px;
+        width: 75px;
+        font-size: 24pt;
     }
 }

@@ -18,15 +18,21 @@
              <div class="closeWindow" onclick="hideOptions()">
                  X
              </div>
-            <h2>Options</h2>
-            <p>
-                Háttér
-                <input type="checkbox" name="hatter" id="hatterToggle" onclick="hatterToggle()">
-            </p>
+             <h2>Options</h2>
+            <div class="align-left">
+                <p>
+                    Háttér
+                    <input type="checkbox" name="hatter" id="hatterToggle" onclick="hatterToggle()">
+                </p>
+                <p>
+                    Max Pontlimit
+                    <input type="number" value="500" min="100" max="1000" step="100" id="maxPontOption">
+                </p>
+            </div>
          </div>
         </div>
         <div id="start">
-            <input id="jatekos_szam" type="number" min="2" max="100" value="2">
+            <input id="jatekos_szam" type="number" min="2" max="4" value="2">
             <!-- <div id="start" onclick="palya_generalas()">Start</div> -->
             <div class="gomb" id="start_gomb" onclick="palya_generalas()">
                 <p style="text-align: center;">

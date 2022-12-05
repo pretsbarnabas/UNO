@@ -184,6 +184,7 @@ let start = false
 let tejossz = true
 let jatekosszam = Number
 let reverse = true
+let maxPont = 500
 
 let legutobbi_lap = String
 let jatekos_pontjai = 0
@@ -199,13 +200,13 @@ function palya_generalas() {
     document.getElementById("korvege").style.display = "none"
     pontozas()
     for (let j = 0; j < Object.keys(dict).length; j++) {
-        if(dict[j]>500){
+        if(dict[j]>maxPont){
             bigRESET()
             return
         };
         
     }
-    if(jatekos_pontjai>500){
+    if(jatekos_pontjai>maxPont){
         bigRESET()
         return
     }
@@ -639,7 +640,7 @@ function te_jossz() {
             botok_lepnek(0,false)
         }
         else if(kulonlegesLap == "reverse"){
-            setTimeout(function() {tejossz = true}, 3000)
+            tejossz = true
         }
     }
     else{
@@ -896,6 +897,7 @@ function displayOptions(){
 }
 function hideOptions(){
     document.getElementById("options").style.display = "none"
+    maxPont = document.getElementById("maxPontOption").value
 }
 
 function sleep(ms) {
